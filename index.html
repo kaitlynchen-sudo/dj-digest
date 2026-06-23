@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ Digest — WSJ Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+
+  /* ── WSJ Header ── */
+  .wsj-header {
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    padding: 0 24px;
+  }
+  .wsj-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #e8e8e8;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #555;
+  }
+  .wsj-top-bar-right { display: flex; gap: 14px; align-items: center; }
+  .wsj-subscribe-btn {
+    background: #0060a9;
+    color: #fff;
+    padding: 3px 10px;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    border: none;
+    cursor: pointer;
+  }
+  .wsj-logo-row {
+    padding: 8px 0 4px;
+    text-align: center;
+  }
+  .wsj-logo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #000;
+  }
+  .wsj-nav {
+    display: flex;
+    gap: 0;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border-top: 1px solid #e8e8e8;
+    overflow-x: auto;
+  }
+  .wsj-nav span {
+    cursor: pointer;
+    color: #1a1a1a;
+    padding: 8px 14px;
+    white-space: nowrap;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+  }
+  .wsj-nav span:hover { color: #0060a9; }
+  .wsj-nav span.active { border-bottom: 2px solid #1a1a1a; }
+
+  /* ── Page layout: narrow article column right-of-center ── */
+  .page-outer {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    gap: 32px;
+  }
+  .article-wrapper {
+    width: 600px;
+    flex-shrink: 0;
+    padding: 24px 32px 40px 0;
+    border-right: 1px solid #e8e8e8;
+  }
+  .sidebar-wrapper {
+    width: 260px;
+    flex-shrink: 0;
+    padding: 24px 0;
+  }
+
+  .article-section-label {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .article-headline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #000;
+  }
+
+  .article-deck {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #333;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .article-byline {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .article-byline a { color: #0060a9; text-decoration: none; font-weight: 600; }
+  .article-byline a:hover { text-decoration: underline; }
+
+  .article-utility-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 12px;
+    font-family: 'Inter', Arial, sans-serif;
+  }
+  .utility-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 14px;
+  }
+  .utility-group:first-child { padding-left: 0; }
+  .utility-divider {
+    width: 1px;
+    height: 20px;
+    background: #d8d8d8;
+    flex-shrink: 0;
+  }
+  .utility-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .utility-btn:hover { color: #000; background: #f4f4f4; }
+  .utility-btn svg { flex-shrink: 0; }
+  .utility-btn .u-label { font-weight: 600; color: #222; }
+  .utility-btn .u-sub { color: #888; font-weight: 400; margin-left: 2px; }
+  .utility-count { font-size: 12px; color: #555; }
+
+  .article-meta {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    color: #888;
+    padding: 8px 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .article-hero {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+  .article-hero-img {
+    width: 100%;
+    height: 200px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .article-hero-caption {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #888;
+    line-height: 1.4;
+    padding: 4px 0 14px;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 16px;
+  }
+
+  .article-body p {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    margin-bottom: 18px;
+    color: #000;
+  }
+
+  .article-body *::selection { background: #c9e2f7; }
+  .dj-highlight { background: #c9e2f7; border-radius: 2px; }
+
+  .article-pullquote {
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 12px 0;
+    margin: 22px 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    color: #000;
+    line-height: 1.4;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar-section-title {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 6px;
+    margin-bottom: 0;
+  }
+  .sidebar-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    cursor: pointer;
+  }
+  .sidebar-item:hover .sidebar-item-title { color: #0060a9; }
+  .sidebar-item-num {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    color: #e8e8e8;
+    font-weight: bold;
+    flex-shrink: 0;
+    width: 24px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .sidebar-item-title {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #000;
+  }
+  .sidebar-thumb-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+    cursor: pointer;
+  }
+  .sidebar-thumb {
+    width: 72px;
+    height: 52px;
+    background: #ccc;
+    flex-shrink: 0;
+    font-size: 9px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .sidebar-thumb-title {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 12px;
+    line-height: 1.35;
+    color: #000;
+  }
+  .sidebar-thumb-item:hover .sidebar-thumb-title { color: #0060a9; }
+
+  /* ── DJ Hint ── */
+  .dj-hint {
+    background: #f8f8f8;
+    border-left: 3px solid #1a1a1a;
+    padding: 8px 12px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+  }
+  .dj-hint .dj-icon { font-size: 13px; }
+  .dj-hint-spacer { flex: 1; }
+  .dj-toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #1a1a1a;
+    user-select: none;
+    cursor: pointer;
+  }
+  .dj-toggle {
+    position: relative;
+    width: 32px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+  .dj-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .dj-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 18px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .dj-toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .dj-toggle input:checked + .dj-toggle-slider { background: #1a1a1a; }
+  .dj-toggle input:checked + .dj-toggle-slider::before { transform: translateX(14px); }
+  .dj-hint.dj-disabled {
+    background: #f5f5f5;
+    border-left-color: #ccc;
+    color: #999;
+  }
+
+  /* ── DJ Digest Popup ── */
+  #dj-popup {
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #1a1a1a;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    width: 340px;
+    display: none;
+    overflow: hidden;
+    animation: popupIn 0.15s ease;
+  }
+
+  @keyframes popupIn {
+    from { opacity: 0; transform: translateY(6px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .dj-popup-header {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .dj-popup-header-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dj-popup-header-title span.badge {
+    background: #444;
+    border-radius: 2px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .dj-close {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+  }
+  .dj-close:hover { color: #fff; }
+
+  .dj-selected-text {
+    padding: 10px 14px;
+    background: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: #444;
+    font-style: italic;
+    max-height: 64px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .dj-buttons {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .dj-btn {
+    flex: 1;
+    border: none;
+    background: #fff;
+    padding: 10px 4px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    color: #333;
+    border-right: 1px solid #e0e0e0;
+    transition: background 0.12s, color 0.12s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+  .dj-btn:last-child { border-right: none; }
+  .dj-btn .btn-icon { display: block; flex-shrink: 0; }
+  .dj-btn:hover { background: #f4f4f4; color: #000; }
+  .dj-btn.active { background: #1a1a1a; color: #fff; }
+  .dj-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .dj-response-area {
+    padding: 14px;
+    min-height: 80px;
+    max-height: 280px;
+    overflow-y: auto;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #1a1a1a;
+  }
+
+  .dj-response-area.placeholder {
+    color: #999;
+    font-style: italic;
+    font-family: Georgia, serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 14px;
+  }
+
+  .dj-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    padding: 20px 14px;
+    justify-content: center;
+  }
+
+  .dj-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #e0e0e0;
+    border-top-color: #1a1a1a;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .dj-error {
+    color: #cc2222;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    padding: 4px 0;
+  }
+
+  .dj-footer {
+    background: #f8f8f8;
+    border-top: 1px solid #e0e0e0;
+    padding: 6px 14px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dj-chat-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+  .dj-chat-messages {
+    overflow-y: auto;
+    max-height: 320px;
+    padding: 14px 14px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: max-height 0.2s ease;
+  }
+  .dj-chat-messages:empty {
+    padding: 0;
+  }
+  .dj-chat-bubble {
+    max-width: 85%;
+    padding: 8px 11px;
+    border-radius: 2px;
+    font-family: Georgia, serif;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .dj-chat-bubble.user {
+    align-self: flex-end;
+    background: #1a1a1a;
+    color: #fff;
+  }
+  .dj-chat-bubble.ai {
+    align-self: flex-start;
+    background: #f4f4f4;
+    color: #1a1a1a;
+    border-left: 2px solid #1a1a1a;
+  }
+  .dj-chat-bubble.ai.thinking {
+    color: #999;
+    font-style: italic;
+    border-left-color: #ccc;
+  }
+  .dj-chat-input-row {
+    display: flex;
+    gap: 6px;
+    align-items: flex-end;
+    padding: 20px 14px 12px;
+    border-top: 1px solid #e0e0e0;
+  }
+  .dj-chat-input {
+    flex: 1;
+    font-family: Georgia, serif;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 7px 12px;
+    resize: none;
+    color: #1a1a1a;
+    outline: none;
+    line-height: 1.5;
+    max-height: 80px;
+    overflow-y: auto;
+  }
+  .dj-chat-input:focus { border-color: #1a1a1a; }
+  .dj-chat-send {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .dj-chat-send:hover { background: #333; }
+  .dj-chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .dj-feedback {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 8px 0 4px;
+    border-top: 1px solid #e8e8e8;
+    justify-content: flex-end;
+  }
+  .dj-thumb-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 4px 7px;
+    line-height: 1;
+    color: #555;
+    display: flex;
+    align-items: center;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .dj-thumb-btn:hover { background: #f4f4f4; border-color: #888; color: #111; }
+  .dj-thumb-btn.selected-up { background: #f0f0f0; border-color: #1a1a1a; color: #1a1a1a; }
+  .dj-thumb-btn.selected-down { background: #f0f0f0; border-color: #1a1a1a; color: #1a1a1a; }
+  .dj-feedback-thanks {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #555;
+    margin-left: 4px;
+  }
+  .dj-negative-form {
+    padding: 8px 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .dj-negative-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Georgia, serif;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 6px 8px;
+    resize: none;
+    color: #1a1a1a;
+    outline: none;
+    line-height: 1.5;
+  }
+  .dj-negative-form textarea:focus { border-color: #1a1a1a; }
+  .dj-negative-submit {
+    align-self: flex-end;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .dj-negative-submit:hover { background: #333; }
+
+  /* ── Add to Notebook ── */
+  .vocab-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    background: none;
+    border: 1px solid #1a1a1a;
+    color: #1a1a1a;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .vocab-add-btn:hover { background: #f4f4f4; }
+
+  .vocab-edit-form {
+    margin-top: 12px;
+    border-top: 1px solid #e8e8e4;
+    padding-top: 12px;
+  }
+  .vocab-edit-form label {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #888;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .vocab-edit-form input,
+  .vocab-edit-form textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 6px 8px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    resize: vertical;
+    outline: none;
+  }
+  .vocab-edit-form input:focus,
+  .vocab-edit-form textarea:focus { border-color: #1a1a1a; }
+  .vocab-edit-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .vocab-save-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .vocab-save-btn:hover { background: #333; }
+  .vocab-cancel-btn {
+    background: none;
+    color: #888;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 2px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .vocab-cancel-btn:hover { border-color: #888; color: #333; }
+  .vocab-saved-msg {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── Next Move Items ── */
+  .next-move-card {
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e4;
+  }
+  .next-move-card:last-child { border-bottom: none; }
+  .next-move-title {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+  .next-move-body {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  /* ── Notebook Panel ── */
+  #vocab-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background: #fff;
+    border: 1px solid #1a1a1a;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.10);
+    z-index: 9998;
+    display: none;
+    overflow: hidden;
+  }
+  .vocab-panel-header {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 10px 14px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .vocab-panel-close {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .vocab-panel-close:hover { color: #fff; }
+  .vocab-panel-body {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .vocab-panel-empty {
+    padding: 20px 14px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+  }
+  .vocab-entry {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .vocab-entry:last-child { border-bottom: none; }
+  .vocab-entry.pinned { background: #f8f8f8; }
+  .vocab-entry-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .vocab-entry-term {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .vocab-entry-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .vocab-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1px 3px;
+    color: #bbb;
+    font-size: 13px;
+    line-height: 1;
+    border-radius: 3px;
+  }
+  .vocab-action-btn:hover { color: #555; background: #eee; }
+  .vocab-action-btn.pin-active { color: #1a1a1a; }
+  .vocab-entry-def {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  .dj-hint-vocab-btn {
+    background: none;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 2px;
+    color: #1a1a1a;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    margin-right: 10px;
+  }
+  .dj-hint-vocab-btn:hover { background: rgba(0,0,0,0.05); }
+  #vocab-count {
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  /* ── Onboarding Modal ── */
+  #onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  #onboarding-modal {
+    background: #fff;
+    border-radius: 8px;
+    width: 520px;
+    max-width: calc(100vw - 32px);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+    overflow: hidden;
+  }
+  .onboarding-header {
+    background: #0c2d5e;
+    color: #fff;
+    padding: 20px 24px 16px;
+  }
+  .onboarding-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .onboarding-header p {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    opacity: 0.8;
+    line-height: 1.5;
+  }
+  .onboarding-body { padding: 20px 24px; }
+  .onboarding-body label {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #888;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .segment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .segment-btn {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    text-align: left;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.12s, background 0.12s;
+    width: 100%;
+  }
+  .segment-btn:hover { border-color: #0c2d5e; background: #f5f8fd; }
+  .segment-btn.selected { border-color: #0c2d5e; background: #f0f4fa; }
+  .segment-btn-name {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0c2d5e;
+    margin-bottom: 2px;
+  }
+  .segment-btn-desc {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    color: #666;
+    line-height: 1.4;
+  }
+  .onboarding-note {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  .onboarding-note textarea {
+    width: 100%;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+    resize: none;
+    outline: none;
+    margin-top: 6px;
+  }
+  .onboarding-note textarea:focus { border-color: #0c2d5e; }
+  .onboarding-footer {
+    padding: 0 24px 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .onboarding-start-btn {
+    background: #0c2d5e;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .onboarding-start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .onboarding-start-btn:not(:disabled):hover { background: #0a2448; }
+
+  /* ── Profile Pill ── */
+  #profile-pill {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 3px 10px 3px 8px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  #profile-pill:hover { background: rgba(255,255,255,0.2); }
+  #profile-pill svg { opacity: 0.7; }
+
+  /* ── AI Banner ── */
+  #ai-banner { display: none; }
+
+  /* ── Settings gear ── */
+  #settings-gear {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    z-index: 9000;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  #settings-gear:hover { color: #1a1a1a; border-color: #888; }
+
+  /* ── Settings Modal ── */
+  #settings-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+  }
+  #settings-overlay.open { display: flex; }
+  #settings-modal {
+    background: #fff;
+    border: 1px solid #1a1a1a;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+  }
+  #settings-modal-header {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  #settings-modal-close {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  #settings-modal-close:hover { color: #fff; }
+  #settings-modal-body {
+    padding: 20px 20px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .settings-label {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #888;
+  }
+  .settings-mode-row {
+    display: flex;
+    gap: 8px;
+  }
+  .ai-mode-btn {
+    flex: 1;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 7px 0;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.12s;
+  }
+  .ai-mode-btn.selected { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .ai-mode-btn:hover:not(.selected) { background: #e8e8e8; }
+  .settings-input {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 8px 10px;
+    color: #1a1a1a;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .settings-input:focus { border-color: #1a1a1a; }
+  .settings-status {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #888;
+    font-style: italic;
+  }
+  #settings-modal-footer {
+    padding: 12px 20px 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    border-top: 1px solid #e8e8e8;
+  }
+  .settings-save-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .settings-save-btn:hover { background: #333; }
+  .settings-cancel-btn {
+    background: none;
+    border: 1px solid #ccc;
+    color: #888;
+    padding: 8px 16px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .settings-cancel-btn:hover { border-color: #888; color: #333; }
+
+  /* ── Mobile / iPhone Pro Max (≤ 480px) ── */
+  @media (max-width: 768px) {
+
+    /* Layout: stack article above sidebar, full width */
+    .page-outer {
+      flex-direction: column;
+      padding: 0 16px;
+      gap: 0;
+    }
+    .article-wrapper {
+      width: 100%;
+      padding: 16px 0 24px;
+      border-right: none;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .sidebar-wrapper {
+      width: 100%;
+      padding: 16px 0;
+    }
+
+    /* Header: hide cluttered top bar, shrink logo */
+    .wsj-top-bar { display: none; }
+    .wsj-logo { font-size: 22px; letter-spacing: 2px; }
+    .wsj-logo-row { padding: 10px 0 6px; }
+    .wsj-nav { font-size: 11px; }
+    .wsj-nav span { padding: 7px 10px; }
+
+    /* DJ hint bar: shrink text */
+    .dj-hint { font-size: 11px; padding: 7px 10px; }
+    .dj-hint strong { font-size: 11px; }
+
+    /* Utility bar: scroll horizontally */
+    .article-utility-bar { overflow-x: auto; flex-wrap: nowrap; }
+    .utility-group:first-child { padding-left: 0; }
+
+    /* Popup: bottom sheet instead of floating */
+    #dj-popup {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      top: auto !important;
+      width: 100% !important;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    /* Popup buttons: smaller text */
+    .dj-btn { font-size: 10px; padding: 8px 2px; gap: 5px; }
+
+    /* Chat messages max height on mobile */
+    .dj-chat-messages { max-height: 240px; }
+
+    /* Onboarding modal: full screen */
+    #onboarding-overlay .onboarding-card {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      border-radius: 0;
+      margin: 0;
+    }
+    .segment-options { grid-template-columns: 1fr 1fr; }
+
+    /* Vocab panel: full width */
+    #vocab-panel { width: 100%; left: 0; right: 0; border-radius: 0 0 6px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Onboarding Modal -->
+<div id="onboarding-overlay">
+  <div id="onboarding-modal">
+    <div class="onboarding-header">
+      <h2>Welcome to DJ Digest</h2>
+      <p>Tell us a bit about yourself so we can tailor insights to your situation.</p>
+    </div>
+    <div class="onboarding-body">
+      <label>Which best describes you?</label>
+      <div class="segment-options">
+        <button class="segment-btn" data-segment="Explorer" onclick="selectSegment(this)">
+          <div class="segment-btn-name">Explorer</div>
+          <div class="segment-btn-desc">Educated millennial charting your own path, open to new ideas and financial opportunities</div>
+        </button>
+        <button class="segment-btn" data-segment="Pre-Suite" onclick="selectSegment(this)">
+          <div class="segment-btn-name">Pre-Suite</div>
+          <div class="segment-btn-desc">Early to mid-career professional striving for higher status and financial growth</div>
+        </button>
+        <button class="segment-btn" data-segment="Current Core" onclick="selectSegment(this)">
+          <div class="segment-btn-name">Current Core</div>
+          <div class="segment-btn-desc">High-achieving intellectual, late career or retired, with a deep interest in business and finance</div>
+        </button>
+        <button class="segment-btn" data-segment="Next Gen" onclick="selectSegment(this)">
+          <div class="segment-btn-name">Next Gen</div>
+          <div class="segment-btn-desc">Under 30 or student, seeking to grow your career and build financial literacy</div>
+        </button>
+        <button class="segment-btn" data-segment="C-Suite" onclick="selectSegment(this)">
+          <div class="segment-btn-name">C-Suite</div>
+          <div class="segment-btn-desc">Decision-maker at the top of your organization, focused on strategic insight and leadership</div>
+        </button>
+      </div>
+      <div class="onboarding-note">
+        <span>Anything else we should know? <em>(optional)</em></span>
+        <textarea id="onboarding-context" rows="2" placeholder="e.g. I'm a freelancer focused on retirement planning…"></textarea>
+      </div>
+    </div>
+    <div class="onboarding-footer">
+      <button class="onboarding-start-btn" id="onboarding-start" disabled onclick="finishOnboarding()">Get Started</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI Banner -->
+
+<!-- Page body -->
+<div class="page-outer">
+
+<!-- Article -->
+<div class="article-wrapper">
+
+  <div class="dj-hint" id="dj-hint-bar">
+    <label class="dj-toggle-wrap" onclick="toggleDjDigest()">
+      <span class="dj-toggle">
+        <input type="checkbox" id="dj-toggle-input" checked onchange="toggleDjDigest()" onclick="event.stopPropagation()">
+        <span class="dj-toggle-slider"></span>
+      </span>
+    </label>
+    <strong>DJ Digest:</strong> Highlight any text to get AI-powered insights.
+    <span class="dj-hint-spacer"></span>
+    <button class="dj-hint-vocab-btn" onclick="toggleVocabPanel()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Notebook <span id="vocab-count">0</span>
+    </button>
+    <div id="vocab-panel">
+      <div class="vocab-panel-header">
+        Notebook
+        <button class="vocab-panel-close" onclick="toggleVocabPanel()">✕</button>
+      </div>
+      <div class="vocab-panel-body" id="vocab-panel-body">
+        <div class="vocab-panel-empty" id="vocab-empty">No words saved yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-section-label">Opinion &nbsp;·&nbsp; Flashline</div>
+
+  <h1 class="article-headline">Google's New Privacy Plan Has Flaws, Regulator Says in Internal Documents</h1>
+
+  <p class="article-deck">
+    In draft report, agency says Google's proposed replacements for cookies have gaps advertisers can exploit.
+  </p>
+
+  <div class="article-utility-bar">
+    <!-- left group: share, save, text size, comments -->
+    <div class="utility-group">
+      <button class="utility-btn" title="Share">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      </button>
+      <button class="utility-btn" title="Save">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <button class="utility-btn" title="Text size">
+        <svg width="18" height="16" viewBox="0 0 24 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><text x="0" y="16" font-size="14" font-family="Georgia,serif" fill="#555" stroke="none" font-weight="400">Aa</text></svg>
+      </button>
+      <button class="utility-btn" title="Comments">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="utility-count">295</span>
+      </button>
+    </div>
+
+    <div class="utility-divider"></div>
+
+    <!-- gift group -->
+    <div class="utility-group">
+      <button class="utility-btn" title="Gift article">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <span class="u-label">Gift unlocked article</span>
+      </button>
+    </div>
+
+    <div class="utility-divider"></div>
+
+    <!-- listen group -->
+    <div class="utility-group">
+      <button class="utility-btn" title="Listen">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        <span class="u-label">Listen</span>
+        <span class="u-sub">(5 min)</span>
+      </button>
+    </div>
+
+    <div class="utility-divider"></div>
+
+    <!-- more -->
+    <div class="utility-group">
+      <button class="utility-btn" title="More options">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="article-byline">
+    By <a href="#">Patience Haggin</a> and <a href="#">Jess Bravin</a>
+  </div>
+
+  <div class="article-meta">
+    <span>Updated April 19, 2024 at 12:00 AM ET</span>
+    <span>14 min read</span>
+  </div>
+
+  <div class="article-hero">
+    <div class="article-hero-img">
+      <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="4" y="28" font-family="Arial" font-size="28" font-weight="bold" fill="#ea4335">G</text>
+        <text x="28" y="28" font-family="Arial" font-size="28" font-weight="bold" fill="#4285f4">o</text>
+        <text x="44" y="28" font-family="Arial" font-size="28" font-weight="bold" fill="#fbbc04">o</text>
+        <text x="60" y="28" font-family="Arial" font-size="28" font-weight="bold" fill="#34a853">g</text>
+      </svg>
+    </div>
+    <div class="article-hero-caption">Critics say Google and YouTube stand to benefit from the elimination of cookies. PHOTO: HOLLIE ADAMS/BLOOMBERG NEWS</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>
+      Google's yearslong effort to make online advertising less invasive has hit another snag.
+    </p>
+
+    <p>
+      The U.K. privacy regulator says Google's proposed replacements for cookies need to do more to protect consumer privacy, according to internal documents reviewed by The Wall Street Journal.
+    </p>
+
+    <p>
+      Google's proposed technology, dubbed <strong>Privacy Sandbox</strong>, leaves gaps that can be exploited to undermine privacy and identify users who should be kept anonymous, the Information Commissioner's Office wrote in a draft report. Based on what the ICO called systemic industry noncompliance, it is likely companies will use the tech to continue tracking users across different sites, the ICO said.
+    </p>
+
+    <p>
+      The ICO is both trying to get Google to make changes and sharing its concerns with the Competition and Markets Authority, the U.K.'s competition regulator, which is overseeing Google's global efforts to get rid of cookies in its dominant Chrome browser.
+    </p>
+
+    <p>
+      The draft isn't final, and the ICO is expected to release its report around the end of April. The CMA has promised it will consider the privacy regulator's recommendations as it evaluates Google's plans.
+    </p>
+
+    <div class="article-pullquote">
+      "Privacy Sandbox technologies are designed to deliver meaningful privacy improvements and provide the industry with privacy-preserving alternatives to cross-site tracking."
+      <br><small style="font-size:14px;font-style:normal;">— Google spokesman</small>
+    </div>
+
+    <p>
+      The CMA won't let Google block cookies until it deems the replacement technologies to be acceptable. If the CMA requires Google to alter its technologies in light of the ICO's concerns, it may delay Google's timeline for deprecating cookies to allow time to overhaul the Privacy Sandbox technologies.
+    </p>
+
+    <p>
+      A spokeswoman for the ICO declined to comment. A spokesman for the CMA declined to comment.
+    </p>
+
+    <p>
+      Others have criticized Google's privacy plan for not being private enough. The Electronic Frontier Foundation, a nonprofit privacy organization, urged users to opt out of letting Google's new proposed tech track them when they use Chrome.
+    </p>
+
+    <p>
+      "Even if it's better than third-party cookies, the Privacy Sandbox is still tracking. It's just done by the company that makes your browser instead of the company that runs the ads," said Thorin Klosowski, a security and privacy activist at the foundation.
+    </p>
+
+    <p>
+      In response to the EFF's concerns, the Google spokesman pointed to the company's statement saying Privacy Sandbox will deliver meaningful privacy improvements.
+    </p>
+
+    <p>
+      Google is writing the rules for an industry where it is the largest player. The company brought in $238 billion in ad revenue last year and has about 28.1% of the global online-ad market, according to research firm Emarketer.
+    </p>
+
+    <p>
+      Blocking third-party cookies could mean billions of web users see fewer ads that closely match their online-browsing habits. With cookies, an auto brand can target someone reading articles on a news outlet's website after that person clicked a competitor's ad on another site.
+    </p>
+
+  </div>
+</div><!-- /article-wrapper -->
+
+<!-- Sidebar -->
+<div class="sidebar-wrapper">
+  <div class="sidebar-section-title">Most Popular</div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-num">1</div>
+    <div class="sidebar-item-title">Lisa Marie Presley, Daughter of Elvis Presley, Dies at 54</div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-num">2</div>
+    <div class="sidebar-item-title">Special Counsel Named to Investigate Biden Documents</div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-num">3</div>
+    <div class="sidebar-item-title">Yellowstone Show Has Suburbanites Dressing Like Cattle Ranchers</div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-num">4</div>
+    <div class="sidebar-item-title">No, It Is Not a Mirage: Joshua Tree's Invisible House Lists for $18 Million</div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-num">5</div>
+    <div class="sidebar-item-title">Google Says Supreme Court Ruling Could Potentially Upend the Internet</div>
+  </div>
+
+  <div class="sidebar-section-title" style="margin-top:24px;">Most Popular Opinion</div>
+  <div class="sidebar-thumb-item">
+    <div class="sidebar-thumb" style="background:#1a1a1a;"></div>
+    <div class="sidebar-thumb-title">'Ethics' and the Supreme Court's Independence</div>
+  </div>
+  <div class="sidebar-thumb-item">
+    <div class="sidebar-thumb" style="background:#2a3a4a;"></div>
+    <div class="sidebar-thumb-title">The Auto Makers Cry for EV Mercy</div>
+  </div>
+  <div class="sidebar-thumb-item">
+    <div class="sidebar-thumb" style="background:#3a2a2a;"></div>
+    <div class="sidebar-thumb-title">When All The Cookies Are Gone</div>
+  </div>
+  <div class="sidebar-thumb-item">
+    <div class="sidebar-thumb" style="background:#2a3a2a;"></div>
+    <div class="sidebar-thumb-title">Google's Privacy Breach</div>
+  </div>
+</div><!-- /sidebar-wrapper -->
+
+</div><!-- /page-outer -->
+
+<!-- Settings Gear -->
+<button id="settings-gear" onclick="openSettings()" title="Settings">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<!-- Settings Modal -->
+<div id="settings-overlay" onclick="if(event.target===this)closeSettings()">
+  <div id="settings-modal">
+    <div id="settings-modal-header">
+      Settings
+      <button id="settings-modal-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div id="settings-modal-body">
+      <div class="settings-field">
+        <div class="settings-label">Mode</div>
+        <div class="settings-mode-row">
+          <button class="ai-mode-btn selected" id="mode-demo" onclick="setAiMode('demo')">Demo</button>
+          <button class="ai-mode-btn" id="mode-live" onclick="setAiMode('live')">Live (OpenAI)</button>
+        </div>
+      </div>
+      <div class="settings-field" id="settings-key-field" style="display:none">
+        <div class="settings-label">OpenAI API Key</div>
+        <input id="bedrock-key" type="password" class="settings-input" placeholder="sk-…" oninput="sessionStorage.setItem('dj_openai_key', this.value)" />
+      </div>
+      <div class="settings-field">
+        <div class="settings-label">Status</div>
+        <div class="settings-status" id="ai-status">Using simulated responses</div>
+      </div>
+    </div>
+    <div id="settings-modal-footer">
+      <button class="settings-cancel-btn" onclick="closeSettings()">Cancel</button>
+      <button class="settings-save-btn" onclick="closeSettings()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- DJ Digest Popup -->
+<div id="dj-popup">
+  <div class="dj-popup-header">
+    <div class="dj-popup-header-title">
+      ✦ DJ Digest
+    </div>
+    <button class="dj-close" onclick="closePopup()" title="Close">✕</button>
+  </div>
+  <div class="dj-selected-text" id="dj-selected-text"></div>
+  <div class="dj-buttons">
+    <button class="dj-btn" id="btn-plain" onclick="runMode('plain')">
+      <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+      Simplify
+    </button>
+    <button class="dj-btn" id="btn-wallet" onclick="runMode('wallet')">
+      <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v1H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-3V5a3 3 0 0 0-3-3z" style="display:none"/>
+        <path d="M2 12c0 0 2-3 5-3s4 3 4 3 2 3 5 3 5-3 5-3"/>
+        <path d="M2 6c0 0 2-3 5-3s4 3 4 3 2 3 5 3 5-3 5-3"/>
+        <path d="M2 18c0 0 2-3 5-3s4 3 4 3 2 3 5 3 5-3 5-3"/>
+      </svg>
+      Resonate
+    </button>
+    <button class="dj-btn" id="btn-next" onclick="runMode('next')">
+      <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Execute
+    </button>
+    <button class="dj-btn" id="btn-query" onclick="runMode('query')">
+      <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Query
+    </button>
+  </div>
+  <div class="dj-response-area placeholder" id="dj-response">
+    Choose an option above to get AI-powered insights on the selected text.
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let djEnabled = true;
+let currentSelection = '';
+
+function toggleDjDigest() {
+  const input = document.getElementById('dj-toggle-input');
+  const hint = document.getElementById('dj-hint-bar');
+  djEnabled = input.checked;
+  hint.classList.toggle('dj-disabled', !djEnabled);
+  if (!djEnabled) {
+    document.getElementById('dj-popup').style.display = 'none';
+  } else if (!userSegment) {
+    document.getElementById('onboarding-overlay').style.display = 'flex';
+  }
+}
+let activeMode = null;
+let aiMode = 'demo'; // 'demo' | 'live'
+let userSegment = '';
+let userContext = '';
+
+// ── Persistence ────────────────────────────────────────────────────────────
+function loadProfile() {
+  const saved = localStorage.getItem('dj_profile');
+  if (!saved) return;
+  const { segment, context } = JSON.parse(saved);
+  userSegment = segment || '';
+  userContext = context || '';
+  if (userSegment) {
+    const pill = document.getElementById('profile-pill-label'); if (pill) pill.textContent = userSegment;
+    const btn = document.querySelector(`.segment-btn[data-segment="${userSegment}"]`);
+    if (btn) btn.classList.add('selected');
+    document.getElementById('onboarding-context').value = userContext;
+    document.getElementById('onboarding-start').disabled = false;
+  }
+}
+
+function saveProfile() {
+  localStorage.setItem('dj_profile', JSON.stringify({ segment: userSegment, context: userContext }));
+}
+
+loadProfile();
+
+// Restore API key for the session
+(function() {
+  const k = sessionStorage.getItem('dj_openai_key');
+  if (k) document.getElementById('bedrock-key').value = k;
+})();
+
+// ── Onboarding ─────────────────────────────────────────────────────────────
+const SEGMENT_CONTEXT = {
+  'Explorer':      'The reader is an educated millennial charting their own path — entrepreneurial, open to new ideas, building wealth independently.',
+  'Pre-Suite':     'The reader is an early to mid-career professional striving for higher status — focused on career advancement, growing their income, and building long-term wealth.',
+  'Current Core':  'The reader is a high-achieving intellectual, late career or retired — financially sophisticated, with deep knowledge of business and markets, focused on wealth preservation and legacy.',
+  'Next Gen':      'The reader is under 30 or a student — early in their financial journey, focused on career growth, student debt, and building foundational financial literacy.',
+  'C-Suite':       'The reader is a senior executive or decision-maker — focused on strategic, macro-level implications and how news affects their organization and investment portfolio.',
+};
+
+function selectSegment(btn) {
+  document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  userSegment = btn.dataset.segment;
+  document.getElementById('onboarding-start').disabled = false;
+}
+
+function finishOnboarding() {
+  userContext = document.getElementById('onboarding-context').value.trim();
+  document.getElementById('onboarding-overlay').style.display = 'none';
+  document.getElementById('profile-pill-label').textContent = userSegment;
+  saveProfile();
+}
+
+function reopenOnboarding() {
+  document.getElementById('onboarding-overlay').style.display = 'flex';
+}
+
+function buildSegmentPrefix() {
+  if (!userSegment) return '';
+  let prefix = `Reader profile: ${SEGMENT_CONTEXT[userSegment]}`;
+  if (userContext) prefix += ` Additional context: ${userContext}`;
+  return prefix + '\n\n';
+}
+
+// ── AI Mode Toggle ─────────────────────────────────────────────────────────
+function setAiMode(mode) {
+  aiMode = mode;
+  document.getElementById('mode-demo').classList.toggle('selected', mode === 'demo');
+  document.getElementById('mode-live').classList.toggle('selected', mode === 'live');
+  const keyField = document.getElementById('settings-key-field');
+  if (keyField) keyField.style.display = mode === 'live' ? 'flex' : 'none';
+  document.getElementById('ai-status').textContent =
+    mode === 'demo' ? 'Using simulated responses' : 'Live — using GPT-4o via local proxy';
+}
+
+function openSettings() {
+  document.getElementById('settings-overlay').classList.add('open');
+}
+
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+
+// ── Demo Responses ─────────────────────────────────────────────────────────
+const DEMO_RESPONSES = {
+  plain: `Privacy Sandbox is Google's replacement for cookies — the tracking files that let advertisers follow you across websites. The U.K. privacy regulator found gaps in Google's plan that could still let companies identify users who should be anonymous. Until regulators sign off, Google can't actually remove cookies from Chrome.`,
+
+  wallet: `No immediate financial impact. If Privacy Sandbox rolls out, advertisers get less precise data on you — fewer targeted ads, but your browsing behavior stays monetized by Google through a different mechanism. Your finances are unaffected for now.`,
+
+  next: `1. Opt out in Chrome\nSettings → Privacy and Security → Ad privacy → turn off Ad topics, Site-suggested ads, and Ad measurement.\n\n2. Try a privacy-first browser\nFirefox or Brave block cross-site tracking by default.\n\n3. Check who has your data\nReview the privacy policy of your main browser and email provider to see if they sell behavioral data.`,
+  query: `Ask me anything about the highlighted text.`
+};
+
+// ── System Prompts (used for live mode) ───────────────────────────────────
+const SYSTEM_PROMPTS = {
+  plain: `You are a plain-language explainer for WSJ readers. The user will give you a full article for context and a highlighted passage. First, silently decide: is the highlight a single term or short phrase (1-4 words) that functions as jargon, a concept, or a proper noun? If yes, treat it as a vocabulary item — give a 1-sentence definition, then 1 sentence on why it matters in this article's context. If no, treat it as a passage needing explanation — explain it in 2-3 clear sentences using the article as background. No bold or markdown formatting. No jargon. Stay tightly anchored to what was highlighted. Be concise.`,
+  wallet: `You are a personal finance advisor for WSJ readers. The user will give you a full article for context and a highlighted passage. Focus your response on the highlighted passage — explain in 2-3 sentences how it could affect a typical person's finances. Use the article context to inform your answer, but stay anchored to what was highlighted. Be specific, use "you". No bold or markdown formatting. No filler.`,
+  next: `You are a practical financial advisor. The user will give you a full article for context and a highlighted passage. Give exactly 3 concrete next steps based on the highlighted passage. Use the article context to make the steps more specific and relevant, but the actions must directly relate to what was highlighted. Format each as: "1. Action title\nOne-sentence explanation." Separate each step with a blank line. No bold or markdown formatting. No em dashes. Be brief and specific. No hedging, no generic advice.`,
+  query: `You are a knowledgeable conversational assistant for WSJ readers. The user has highlighted a passage from an article — use it as context for the conversation, but answer freely drawing on your broader knowledge. You are not limited to the article. Give direct, informed answers. No bold or markdown formatting. Keep responses concise unless depth is needed.`
+};
+
+// ── Selection Detection ────────────────────────────────────────────────────
+function handleSelectionEnd(e) {
+  const insidePopup = document.getElementById('dj-popup').contains(e.target) ||
+                      !!(e.target.closest && e.target.closest('#dj-popup'));
+  const delay = e.type === 'touchend' ? 300 : 10;
+  setTimeout(function() {
+    if (insidePopup) return;
+    const sel = window.getSelection();
+    const text = sel ? sel.toString().trim() : '';
+    if (text && djEnabled) {
+      currentSelection = text;
+      activeMode = null;
+      const rect = (sel && sel.rangeCount > 0) ? sel.getRangeAt(0).getBoundingClientRect() : null;
+      applyHighlight(sel);
+      showPopup(rect);
+    } else {
+      closePopup();
+    }
+  }, delay);
+}
+
+document.addEventListener('mouseup', handleSelectionEnd);
+document.addEventListener('touchend', handleSelectionEnd);
+
+document.addEventListener('mousedown', function(e) {
+  const popup = document.getElementById('dj-popup');
+  if (!popup.contains(e.target) && !e.target.closest('#dj-popup')) {
+    closePopup();
+  }
+});
+
+
+function applyHighlight(sel) {
+  removeHighlight();
+  if (!sel || sel.rangeCount === 0) return;
+  try {
+    const range = sel.getRangeAt(0);
+    const mark = document.createElement('mark');
+    mark.className = 'dj-highlight';
+    mark.id = 'dj-active-highlight';
+    range.surroundContents(mark);
+    sel.removeAllRanges();
+  } catch(e) {
+    // surroundContents fails on cross-element selections — leave native highlight
+  }
+}
+
+function removeHighlight() {
+  const mark = document.getElementById('dj-active-highlight');
+  if (!mark) return;
+  const parent = mark.parentNode;
+  while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+  parent.removeChild(mark);
+  parent.normalize();
+}
+
+// ── Popup Positioning ──────────────────────────────────────────────────────
+function showPopup(rect) {
+  const popup = document.getElementById('dj-popup');
+
+  setResponsePlaceholder();
+  setButtonsEnabled(true);
+  document.querySelectorAll('.dj-btn').forEach(b => b.classList.remove('active'));
+
+  const snippet = currentSelection.length > 140
+    ? currentSelection.slice(0, 140) + '…'
+    : currentSelection;
+  document.getElementById('dj-selected-text').textContent = '"' + snippet + '"';
+
+  // On mobile, popup is a CSS fixed bottom sheet — skip absolute positioning
+  if (window.innerWidth <= 768) {
+    popup.style.left = '';
+    popup.style.top  = '';
+    popup.style.display = 'block';
+    return;
+  }
+
+  if (!rect) { popup.style.display = 'block'; return; }
+
+  const POPUP_W = 340;
+  const MARGIN = 10;
+
+  let left = rect.left + window.scrollX + (rect.width / 2) - (POPUP_W / 2);
+  let top  = rect.bottom + window.scrollY + 8;
+
+  if (left < MARGIN) left = MARGIN;
+  if (left + POPUP_W > window.innerWidth - MARGIN) {
+    left = window.innerWidth - POPUP_W - MARGIN;
+  }
+
+  popup.style.left = left + 'px';
+  popup.style.top  = top + 'px';
+  popup.style.display = 'block';
+}
+
+function closePopup() {
+  document.getElementById('dj-popup').style.display = 'none';
+  activeMode = null;
+  removeHighlight();
+}
+
+// ── Button Modes ───────────────────────────────────────────────────────────
+async function runMode(mode) {
+  if (!currentSelection) return;
+
+  activeMode = mode;
+  document.querySelectorAll('.dj-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + mode).classList.add('active');
+
+  if (mode === 'query') {
+    showQueryInput();
+    return;
+  }
+
+  setButtonsEnabled(false);
+  showLoading();
+
+  if (aiMode === 'live') {
+    try {
+      const segmentPrefix = (mode !== 'plain') ? buildSegmentPrefix() : '';
+      const systemPrompt = segmentPrefix + SYSTEM_PROMPTS[mode];
+      const articleText = getArticleText();
+      const text = await callBedrock(systemPrompt, currentSelection, articleText);
+      showResponse(text);
+    } catch (err) {
+      showError('Error: ' + err.message + ' — is proxy.py running?');
+    }
+  } else {
+    await new Promise(r => setTimeout(r, 900));
+    showResponse(DEMO_RESPONSES[mode]);
+  }
+
+  setButtonsEnabled(true);
+}
+
+let chatHistory = [];
+
+async function submitQuery() {
+  const input = document.getElementById('dj-chat-input');
+  const q = input.value.trim();
+  if (!q) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  appendChatBubble('user', q);
+  chatHistory.push({ role: 'user', content: q });
+
+  const thinkingEl = appendChatBubble('ai', 'Thinking…', true);
+  document.getElementById('dj-chat-send').disabled = true;
+
+  if (aiMode === 'live') {
+    try {
+      const articleText = getArticleText();
+      const systemPrompt = SYSTEM_PROMPTS.query +
+        `\n\nFull article for context:\n\n${articleText}\n\nThe user highlighted this passage: "${currentSelection}"`;
+      const text = await callBedrockRaw(systemPrompt, chatHistory);
+      thinkingEl.remove();
+      chatHistory.push({ role: 'assistant', content: text });
+      appendChatBubble('ai', renderText(text));
+      appendChatFeedback();
+    } catch (err) {
+      thinkingEl.remove();
+      appendChatBubble('ai', 'Error: ' + err.message);
+    }
+  } else {
+    await new Promise(r => setTimeout(r, 900));
+    const demo = `**Privacy Sandbox** refers to Google's suite of browser APIs designed to replace third-party cookies. In this context, the U.K. regulator's concern is that these APIs still expose enough user-level signals that advertisers could re-identify individuals — undermining the privacy benefit Google claims.`;
+    thinkingEl.remove();
+    chatHistory.push({ role: 'assistant', content: demo });
+    appendChatBubble('ai', renderText(demo));
+    appendChatFeedback();
+  }
+
+  document.getElementById('dj-chat-send').disabled = false;
+  input.focus();
+}
+
+
+function appendChatBubble(role, html, isThinking = false) {
+  const msgs = document.getElementById('dj-chat-messages');
+  const el = document.createElement('div');
+  el.className = 'dj-chat-bubble ' + role + (isThinking ? ' thinking' : '');
+  el.innerHTML = isThinking ? html : html;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+let chatFeedbackCount = 0;
+function appendChatFeedback() {
+  const msgs = document.getElementById('dj-chat-messages');
+  const id = 'cf-' + (++chatFeedbackCount);
+  const el = document.createElement('div');
+  el.className = 'dj-feedback';
+  el.style.borderTop = 'none';
+  el.style.paddingTop = '0';
+  el.style.marginTop = '3px';
+  el.style.justifyContent = 'flex-start';
+  el.id = id;
+  el.innerHTML = `
+    <button class="dj-thumb-btn" onclick="submitChatFeedback('up','${id}')" title="Yes">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+    </button>
+    <button class="dj-thumb-btn" onclick="submitChatFeedback('down','${id}')" title="No">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+    </button>`;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function submitChatFeedback(vote, id) {
+  const bar = document.getElementById(id);
+  bar.querySelectorAll('.dj-thumb-btn').forEach(b => b.disabled = true);
+  bar.querySelector('[title="Yes"]').classList.toggle('selected-up', vote === 'up');
+  bar.querySelector('[title="No"]').classList.toggle('selected-down', vote === 'down');
+  if (vote === 'down') {
+    const form = document.createElement('div');
+    form.className = 'dj-negative-form';
+    form.style.padding = '6px 0 8px';
+    form.innerHTML = `
+      <textarea rows="2" placeholder="What was wrong or unhelpful?" style="width:100%;box-sizing:border-box;font-family:Inter,Arial,sans-serif;font-size:12px;border:1px solid #ddd;border-radius:4px;padding:6px 8px;resize:none;outline:none;line-height:1.5;"></textarea>
+      <button class="dj-negative-submit" onclick="this.closest('.dj-negative-form').remove()">Send</button>`;
+    bar.after(form);
+    const msgs = document.getElementById('dj-chat-messages');
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+}
+
+// ── Article Context ────────────────────────────────────────────────────────
+function getArticleText() {
+  const headline = document.querySelector('.article-headline');
+  const deck = document.querySelector('.article-deck');
+  const body = document.querySelector('.article-body');
+  const parts = [];
+  if (headline) parts.push(headline.textContent.trim());
+  if (deck) parts.push(deck.textContent.trim());
+  if (body) parts.push(body.innerText.trim());
+  return parts.join('\n\n');
+}
+
+// ── Bedrock Proxy Call ─────────────────────────────────────────────────────
+async function callBedrock(systemPrompt, userText, articleText) {
+  const apiKey = document.getElementById('bedrock-key').value.trim();
+  if (!apiKey) throw new Error('Please enter your OpenAI API key in the banner.');
+
+  const body = {
+    __api_key:  apiKey,
+    max_tokens: 1024,
+    system:     systemPrompt,
+    messages:   [{ role: 'user', content: `Full article for context:\n\n${articleText}\n\n---\n\nThe user highlighted this passage:\n\n"${userText}"` }]
+  };
+
+  const res = await fetch('http://localhost:8765', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || data.error?.message || `HTTP ${res.status}`);
+
+  const textBlock = data.content && data.content.find(b => b.type === 'text');
+  if (!textBlock) throw new Error('No text in response');
+  return textBlock.text;
+}
+
+
+async function callBedrockRaw(systemPrompt, messages) {
+  const apiKey = document.getElementById('bedrock-key').value.trim();
+  if (!apiKey) throw new Error('Please enter your OpenAI API key in the banner.');
+  const body = {
+    __api_key:  apiKey,
+    max_tokens: 1024,
+    system:     systemPrompt,
+    messages:   messages
+  };
+  const res = await fetch('http://localhost:8765', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || data.error?.message || `HTTP ${res.status}`);
+  const textBlock = data.content && data.content.find(b => b.type === 'text');
+  if (!textBlock) throw new Error('No text in response');
+  return textBlock.text;
+}
+
+function showQueryInput() {
+  chatHistory = [];
+  const area = document.getElementById('dj-response');
+  area.className = 'dj-response-area';
+  area.style.padding = '0';
+  area.style.maxHeight = 'none';
+  area.innerHTML = `
+    <div class="dj-chat-wrap">
+      <div class="dj-chat-messages" id="dj-chat-messages"></div>
+      <div class="dj-chat-input-row">
+        <textarea id="dj-chat-input" class="dj-chat-input" rows="1" placeholder="Ask a question…"></textarea>
+        <button class="dj-chat-send" id="dj-chat-send" onclick="submitQuery()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>`;
+  const input = document.getElementById('dj-chat-input');
+  input.focus();
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitQuery(); }
+  });
+  input.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+  });
+}
+
+// ── UI Helpers ─────────────────────────────────────────────────────────────
+function resetResponseArea(area) {
+  area.style.padding = '';
+  area.style.maxHeight = '';
+}
+
+function showLoading() {
+  const area = document.getElementById('dj-response');
+  area.className = 'dj-response-area';
+  resetResponseArea(area);
+  area.innerHTML = `<div class="dj-loading"><div class="dj-spinner"></div> Thinking…</div>`;
+}
+
+function renderText(text) {
+  const html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+  return html.startsWith('<br>') ? html.slice(4) : html;
+}
+
+function renderNextMoves(text) {
+  const cards = text.split(/\n\n+/).filter(s => s.trim());
+  return cards.map(card => {
+    const lines = card.trim().split(/\n/);
+    const title = lines[0].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.+?)\*\*/g,'$1');
+    const body = lines.slice(1).join(' ').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.+?)\*\*/g,'$1');
+    return `<div class="next-move-card"><div class="next-move-title">${title}</div>${body ? `<div class="next-move-body">${body}</div>` : ''}</div>`;
+  }).join('');
+}
+
+function showResponse(text) {
+  const area = document.getElementById('dj-response');
+  area.className = 'dj-response-area';
+  resetResponseArea(area);
+
+  let content = '';
+  if (activeMode === 'next') {
+    content = renderNextMoves(text);
+  } else if (activeMode === 'plain') {
+    content = `<div id="dj-response-text">${renderText(text)}</div>
+      <button class="vocab-add-btn" onclick="showVocabForm()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add to Notebook
+      </button>
+      <div id="vocab-form-area"></div>`;
+  } else {
+    content = renderText(text);
+  }
+
+  area.innerHTML = content + `
+    <div class="dj-feedback" id="dj-feedback-bar">
+      <button class="dj-thumb-btn" id="thumb-up" onclick="submitFeedback('up')" title="Yes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+      </button>
+      <button class="dj-thumb-btn" id="thumb-down" onclick="submitFeedback('down')" title="No">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+      </button>
+    </div>
+    <div class="dj-negative-form" id="dj-negative-form" style="display:none">
+      <textarea id="dj-negative-text" rows="2" placeholder="What was wrong or unhelpful?"></textarea>
+      <button class="dj-negative-submit" onclick="submitNegativeFeedback()">Send</button>
+    </div>`;
+}
+
+function submitFeedback(vote) {
+  document.getElementById('thumb-up').classList.toggle('selected-up', vote === 'up');
+  document.getElementById('thumb-down').classList.toggle('selected-down', vote === 'down');
+  document.getElementById('thumb-up').disabled = true;
+  document.getElementById('thumb-down').disabled = true;
+
+  if (vote === 'up') {
+    document.getElementById('dj-negative-form').style.display = 'none';
+  } else {
+    document.getElementById('dj-negative-form').style.display = 'flex';
+  }
+}
+
+function submitNegativeFeedback() {
+  const note = document.getElementById('dj-negative-text').value.trim();
+  // Feedback payload — extend to POST to a backend as needed
+  console.log('Feedback:', { vote: 'down', mode: activeMode, selection: currentSelection, note });
+  document.getElementById('dj-negative-form').style.display = 'none';
+}
+
+// ── Vocab ──────────────────────────────────────────────────────────────────
+let vocabList = JSON.parse(localStorage.getItem('dj_vocab') || '[]');
+renderVocabPanel();
+
+function showVocabForm() {
+  const formArea = document.getElementById('vocab-form-area');
+  const explanation = document.getElementById('dj-response-text').innerText;
+  const term = currentSelection.length > 60
+    ? currentSelection.slice(0, 60) + '…'
+    : currentSelection;
+
+  formArea.innerHTML = `
+    <div class="vocab-edit-form">
+      <label>Term</label>
+      <input id="vocab-term-input" type="text" value="${escHtml(term)}" />
+      <label>Explanation</label>
+      <textarea id="vocab-def-input" rows="4">${escHtml(explanation)}</textarea>
+      <div class="vocab-edit-actions">
+        <button class="vocab-cancel-btn" onclick="cancelVocabForm()">Cancel</button>
+        <button class="vocab-save-btn" onclick="saveVocabEntry()">Save</button>
+      </div>
+    </div>`;
+
+  // Hide the add button while form is open
+  document.querySelector('.vocab-add-btn').style.display = 'none';
+}
+
+function cancelVocabForm() {
+  document.getElementById('vocab-form-area').innerHTML = '';
+  document.querySelector('.vocab-add-btn').style.display = '';
+}
+
+function saveVocabEntry() {
+  const term = document.getElementById('vocab-term-input').value.trim();
+  const def  = document.getElementById('vocab-def-input').value.trim();
+  if (!term) return;
+
+  vocabList.push({ term, def, pinned: false });
+  localStorage.setItem('dj_vocab', JSON.stringify(vocabList));
+  renderVocabPanel();
+
+  document.getElementById('vocab-form-area').innerHTML =
+    `<div class="vocab-saved-msg">✓ Saved to Notebook</div>`;
+  document.querySelector('.vocab-add-btn').style.display = 'none';
+}
+
+function renderVocabPanel() {
+  const body = document.getElementById('vocab-panel-body');
+  const empty = document.getElementById('vocab-empty');
+  document.getElementById('vocab-count').textContent = vocabList.length;
+
+  if (vocabList.length === 0) {
+    empty.style.display = '';
+    body.querySelectorAll('.vocab-entry').forEach(el => el.remove());
+    return;
+  }
+
+  empty.style.display = 'none';
+  body.querySelectorAll('.vocab-entry').forEach(el => el.remove());
+
+  const sorted = [...vocabList.entries()].sort((a, b) => b[1].pinned - a[1].pinned);
+  sorted.forEach(([i, item]) => {
+    const el = document.createElement('div');
+    el.className = 'vocab-entry' + (item.pinned ? ' pinned' : '');
+    el.innerHTML = `
+      <div class="vocab-entry-header">
+        <div class="vocab-entry-term">${escHtml(item.term)}</div>
+        <div class="vocab-entry-actions">
+          <button class="vocab-action-btn${item.pinned ? ' pin-active' : ''}" title="${item.pinned ? 'Unpin' : 'Pin'}" onclick="togglePin(${i})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="${item.pinned ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
+          <button class="vocab-action-btn" title="Delete" onclick="deleteVocab(${i})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="vocab-entry-def">${escHtml(item.def)}</div>`;
+    body.appendChild(el);
+  });
+}
+
+function togglePin(i) {
+  vocabList[i].pinned = !vocabList[i].pinned;
+  localStorage.setItem('dj_vocab', JSON.stringify(vocabList));
+  renderVocabPanel();
+}
+
+function deleteVocab(i) {
+  vocabList.splice(i, 1);
+  localStorage.setItem('dj_vocab', JSON.stringify(vocabList));
+  renderVocabPanel();
+}
+
+function toggleVocabPanel() {
+  const panel = document.getElementById('vocab-panel');
+  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showError(msg) {
+  const area = document.getElementById('dj-response');
+  area.className = 'dj-response-area';
+  resetResponseArea(area);
+  area.innerHTML = `<div class="dj-error">⚠ ${msg.replace(/</g, '&lt;')}</div>`;
+}
+
+function setResponsePlaceholder() {
+  const area = document.getElementById('dj-response');
+  area.className = 'dj-response-area placeholder';
+  resetResponseArea(area);
+  area.textContent = 'Choose an option above to get AI-powered insights on the selected text.';
+}
+
+function setButtonsEnabled(enabled) {
+  document.querySelectorAll('.dj-btn').forEach(btn => {
+    btn.disabled = !enabled;
+  });
+}
+</script>
+</body>
+</html>
