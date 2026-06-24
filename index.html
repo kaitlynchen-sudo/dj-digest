@@ -362,12 +362,14 @@
     position: absolute;
     z-index: 9999;
     background: #fff;
-    border: 1px solid #1a1a1a;
+    border: 1px solid #ccc;
     border-radius: 0;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
     width: 340px;
+    max-height: 80vh;
     display: none;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     animation: popupIn 0.15s ease;
   }
 
@@ -377,13 +379,20 @@
   }
 
   .dj-popup-header {
-    background: #1a1a1a;
-    color: #fff;
+    background: #faf8f4;
+    color: #1a1a1a;
     padding: 10px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 2px solid #1a1a1a;
+    cursor: grab;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    z-index: 1;
   }
+  .dj-popup-header.dragging { cursor: grabbing; }
   .dj-popup-header-title {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 13px;
@@ -392,9 +401,11 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    color: #1a1a1a;
   }
   .dj-popup-header-title span.badge {
-    background: #444;
+    background: #ddd6c8;
+    color: #555;
     border-radius: 2px;
     padding: 1px 6px;
     font-size: 10px;
@@ -406,13 +417,13 @@
   .dj-close {
     background: none;
     border: none;
-    color: #888;
+    color: #999;
     font-size: 18px;
     cursor: pointer;
     line-height: 1;
     padding: 0 2px;
   }
-  .dj-close:hover { color: #fff; }
+  .dj-close:hover { color: #1a1a1a; }
 
   .dj-selected-text {
     padding: 10px 14px;
@@ -433,6 +444,10 @@
     display: flex;
     gap: 0;
     border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 41px;
+    background: #fff;
+    z-index: 1;
   }
 
   .dj-btn {
@@ -457,14 +472,12 @@
   .dj-btn:last-child { border-right: none; }
   .dj-btn .btn-icon { display: block; flex-shrink: 0; }
   .dj-btn:hover { background: #f4f4f4; color: #000; }
-  .dj-btn.active { background: #1a1a1a; color: #fff; }
+  .dj-btn.active { background: #fff; color: #1a1a1a; box-shadow: inset 0 -2px 0 #1a1a1a; }
   .dj-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .dj-response-area {
     padding: 14px;
     min-height: 80px;
-    max-height: 280px;
-    overflow-y: auto;
     font-family: Georgia, serif;
     font-size: 14px;
     line-height: 1.65;
@@ -771,11 +784,14 @@
     font-family: Arial, sans-serif;
     font-size: 13px;
     font-weight: bold;
-    text-transform: uppercase;
     letter-spacing: 0.4px;
     color: #1a1a1a;
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
   }
+  .next-move-icon { flex-shrink: 0; color: #888; margin-left: -3px; }
   .next-move-body {
     font-family: Georgia, serif;
     font-size: 13px;
@@ -910,36 +926,39 @@
   }
   #onboarding-modal {
     background: #fff;
-    border-radius: 8px;
+    border-radius: 0;
     width: 520px;
     max-width: calc(100vw - 32px);
-    box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
     overflow: hidden;
   }
   .onboarding-header {
-    background: #0c2d5e;
-    color: #fff;
-    padding: 20px 24px 16px;
+    background: #faf8f4;
+    color: #1a1a1a;
+    padding: 16px 24px 14px;
+    border-bottom: 2px solid #1a1a1a;
   }
   .onboarding-header h2 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     margin-bottom: 4px;
+    letter-spacing: 0.2px;
   }
   .onboarding-header p {
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: Georgia, serif;
     font-size: 12px;
-    opacity: 0.8;
+    color: #555;
     line-height: 1.5;
   }
   .onboarding-body { padding: 20px 24px; }
   .onboarding-body label {
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 11px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.8px;
     color: #888;
     display: block;
     margin-bottom: 10px;
@@ -947,71 +966,163 @@
   .segment-options {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 16px;
   }
   .segment-btn {
-    border: 1.5px solid #e0e0e0;
-    border-radius: 6px;
-    padding: 12px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 0;
+    padding: 10px 14px;
     text-align: left;
     cursor: pointer;
     background: #fff;
     transition: border-color 0.12s, background 0.12s;
     width: 100%;
   }
-  .segment-btn:hover { border-color: #0c2d5e; background: #f5f8fd; }
-  .segment-btn.selected { border-color: #0c2d5e; background: #f0f4fa; }
+  .segment-btn:hover { border-color: #1a1a1a; background: #f8f8f8; }
+  .segment-btn.selected { border-color: #1a1a1a; border-left: 3px solid #1a1a1a; background: #faf8f4; }
   .segment-btn-name {
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 13px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
     font-weight: 700;
-    color: #0c2d5e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #1a1a1a;
     margin-bottom: 2px;
   }
   .segment-btn-desc {
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 11px;
+    font-family: Georgia, serif;
+    font-size: 12px;
     color: #666;
     line-height: 1.4;
   }
+  .goal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .goal-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .goal-option:hover { border-color: #1a1a1a; background: #f8f8f8; }
+  .goal-option.selected { border-color: #1a1a1a; background: #faf8f4; }
+  .goal-option input[type="checkbox"] { display: none; }
+  .goal-checkbox {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #ccc;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .goal-option.selected .goal-checkbox {
+    border-color: #1a1a1a;
+    background: #1a1a1a;
+  }
+  .goal-option.selected .goal-checkbox::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 7px;
+    border: 1.5px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translateY(-1px);
+  }
+  .goal-label {
+    font-family: Georgia, serif;
+    font-size: 12px;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
   .onboarding-note {
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 11px;
+    font-family: Georgia, serif;
+    font-size: 12px;
     color: #888;
     margin-bottom: 14px;
   }
   .onboarding-note textarea {
     width: 100%;
-    border: 1.5px solid #e0e0e0;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 0;
     padding: 8px 10px;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: Georgia, serif;
     font-size: 12px;
     color: #333;
     resize: none;
     outline: none;
     margin-top: 6px;
+    box-sizing: border-box;
   }
-  .onboarding-note textarea:focus { border-color: #0c2d5e; }
+  .onboarding-note textarea:focus { border-color: #1a1a1a; }
+  .onboarding-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 14px 24px 0;
+  }
+  .onboarding-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .onboarding-step-dot.active { background: #1a1a1a; }
+  .onboarding-step-dot.done { background: #888; }
+  .onboarding-step-line {
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+    max-width: 40px;
+  }
   .onboarding-footer {
     padding: 0 24px 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
   }
   .onboarding-start-btn {
-    background: #0c2d5e;
+    background: #1a1a1a;
     color: #fff;
     border: none;
     padding: 10px 24px;
-    border-radius: 4px;
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 0;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
     cursor: pointer;
+    margin-left: auto;
   }
   .onboarding-start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .onboarding-start-btn:not(:disabled):hover { background: #0a2448; }
+  .onboarding-start-btn:not(:disabled):hover { background: #333; }
+  .onboarding-back-btn {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 0;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    color: #555;
+  }
+  .onboarding-back-btn:hover { border-color: #1a1a1a; color: #1a1a1a; }
 
   /* ── Profile Pill ── */
   #profile-pill {
@@ -1265,37 +1376,58 @@
       <h2>Welcome to DJ Digest</h2>
       <p>Tell us a bit about yourself so we can tailor insights to your situation.</p>
     </div>
-    <div class="onboarding-body">
+    <div class="onboarding-steps">
+      <div class="onboarding-step-dot active" id="step-dot-1"></div>
+      <div class="onboarding-step-line"></div>
+      <div class="onboarding-step-dot" id="step-dot-2"></div>
+      <div class="onboarding-step-line"></div>
+      <div class="onboarding-step-dot" id="step-dot-3"></div>
+    </div>
+
+    <!-- Step 1: Segment -->
+    <div class="onboarding-body" id="onboarding-step-1">
       <label>Which best describes you?</label>
       <div class="segment-options">
         <button class="segment-btn" data-segment="Explorer" onclick="selectSegment(this)">
           <div class="segment-btn-name">Explorer</div>
-          <div class="segment-btn-desc">Educated millennial charting your own path, open to new ideas and financial opportunities</div>
+          <div class="segment-btn-desc">Millennial, 30s–40s, independent professional or entrepreneur</div>
         </button>
         <button class="segment-btn" data-segment="Pre-Suite" onclick="selectSegment(this)">
           <div class="segment-btn-name">Pre-Suite</div>
-          <div class="segment-btn-desc">Early to mid-career professional striving for higher status and financial growth</div>
+          <div class="segment-btn-desc">Late 20s–40s, early to mid-career professional</div>
         </button>
         <button class="segment-btn" data-segment="Current Core" onclick="selectSegment(this)">
           <div class="segment-btn-name">Current Core</div>
-          <div class="segment-btn-desc">High-achieving intellectual, late career or retired, with a deep interest in business and finance</div>
+          <div class="segment-btn-desc">50s–70s, late career or retired executive or intellectual</div>
         </button>
         <button class="segment-btn" data-segment="Next Gen" onclick="selectSegment(this)">
           <div class="segment-btn-name">Next Gen</div>
-          <div class="segment-btn-desc">Under 30 or student, seeking to grow your career and build financial literacy</div>
+          <div class="segment-btn-desc">Under 30, student or early in first career</div>
         </button>
         <button class="segment-btn" data-segment="C-Suite" onclick="selectSegment(this)">
           <div class="segment-btn-name">C-Suite</div>
-          <div class="segment-btn-desc">Decision-maker at the top of your organization, focused on strategic insight and leadership</div>
+          <div class="segment-btn-desc">Senior executive or organizational decision-maker</div>
         </button>
       </div>
+    </div>
+
+    <!-- Step 2: Goals -->
+    <div class="onboarding-body" id="onboarding-step-2" style="display:none">
+      <label>What are your reading goals? <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#aaa;font-size:10px">Select all that apply</span></label>
+      <div class="goal-options" id="goal-options"></div>
+    </div>
+
+    <!-- Step 3: Context -->
+    <div class="onboarding-body" id="onboarding-step-3" style="display:none">
+      <label>Anything else we should know? <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#aaa;font-size:10px">Optional</span></label>
       <div class="onboarding-note">
-        <span>Anything else we should know? <em>(optional)</em></span>
-        <textarea id="onboarding-context" rows="2" placeholder="e.g. I'm a freelancer focused on retirement planning…"></textarea>
+        <textarea id="onboarding-context" rows="3" placeholder="e.g. I'm a freelancer focused on retirement planning…"></textarea>
       </div>
     </div>
+
     <div class="onboarding-footer">
-      <button class="onboarding-start-btn" id="onboarding-start" disabled onclick="finishOnboarding()">Get Started</button>
+      <button class="onboarding-back-btn" id="onboarding-back" style="display:none" onclick="onboardingBack()">Back</button>
+      <button class="onboarding-start-btn" id="onboarding-next" disabled onclick="onboardingNext()">Next</button>
     </div>
   </div>
 </div>
@@ -1541,6 +1673,10 @@
         <div class="settings-label">Status</div>
         <div class="settings-status" id="ai-status">Using simulated responses</div>
       </div>
+      <div class="settings-field">
+        <div class="settings-label">Onboarding</div>
+        <button class="settings-cancel-btn" onclick="closeSettings(); reopenOnboarding();">Relaunch setup</button>
+      </div>
     </div>
     <div id="settings-modal-footer">
       <button class="settings-cancel-btn" onclick="closeSettings()">Cancel</button>
@@ -1613,24 +1749,91 @@ let aiMode = 'demo'; // 'demo' | 'live'
 let userSegment = '';
 let userContext = '';
 
+// ── Onboarding data ─────────────────────────────────────────────────────────
+const ALL_GOALS = [
+  'Building wealth independently',
+  'Career advancement and income growth',
+  'Wealth preservation and legacy',
+  'Foundational financial literacy',
+  'Strategic and macro-level insight',
+  'Entrepreneurial opportunities',
+  'Retirement planning',
+  'Understanding markets and investing',
+  'Navigating student debt',
+  'Organizational and leadership strategy',
+];
+
+const SEGMENT_DEFAULT_GOALS = {
+  'Explorer':     ['Building wealth independently', 'Entrepreneurial opportunities', 'Understanding markets and investing'],
+  'Pre-Suite':    ['Career advancement and income growth', 'Building wealth independently', 'Understanding markets and investing'],
+  'Current Core': ['Wealth preservation and legacy', 'Understanding markets and investing', 'Retirement planning'],
+  'Next Gen':     ['Foundational financial literacy', 'Navigating student debt', 'Career advancement and income growth'],
+  'C-Suite':      ['Strategic and macro-level insight', 'Organizational and leadership strategy', 'Wealth preservation and legacy'],
+};
+
+let userGoals = [];
+
+function renderGoals(segment) {
+  const defaults = SEGMENT_DEFAULT_GOALS[segment] || [];
+  const container = document.getElementById('goal-options');
+  container.innerHTML = ALL_GOALS.map(goal => {
+    const selected = defaults.includes(goal);
+    return `<div class="goal-option${selected ? ' selected' : ''}" onclick="toggleGoal(this)">
+      <div class="goal-checkbox"></div>
+      <span class="goal-label">${goal}</span>
+    </div>`;
+  }).join('');
+  userGoals = [...defaults];
+}
+
+function toggleGoal(el) {
+  const label = el.querySelector('.goal-label').textContent;
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    if (!userGoals.includes(label)) userGoals.push(label);
+  } else {
+    userGoals = userGoals.filter(g => g !== label);
+  }
+}
+
+function buildSegmentContext() {
+  const base = {
+    'Explorer':     'The reader is an educated millennial, independent professional or entrepreneur.',
+    'Pre-Suite':    'The reader is an early to mid-career professional.',
+    'Current Core': 'The reader is a high-achieving intellectual, late career or retired.',
+    'Next Gen':     'The reader is under 30 or a student, early in their career.',
+    'C-Suite':      'The reader is a senior executive or organizational decision-maker.',
+  };
+  const desc = base[userSegment] || '';
+  const goals = userGoals.length ? ' Their reading goals: ' + userGoals.join(', ') + '.' : '';
+  return desc + goals;
+}
+
 // ── Persistence ────────────────────────────────────────────────────────────
 function loadProfile() {
   const saved = localStorage.getItem('dj_profile');
-  if (!saved) return;
-  const { segment, context } = JSON.parse(saved);
+  if (!saved) {
+    // No prior session — default to Pre-Suite
+    userSegment = 'Pre-Suite';
+    userGoals = SEGMENT_DEFAULT_GOALS['Pre-Suite'];
+    const btn = document.querySelector('.segment-btn[data-segment="Pre-Suite"]');
+    if (btn) btn.classList.add('selected');
+    return;
+  }
+  const { segment, context, goals } = JSON.parse(saved);
   userSegment = segment || '';
   userContext = context || '';
+  userGoals = goals && goals.length ? goals : (segment ? (SEGMENT_DEFAULT_GOALS[segment] || []) : []);
   if (userSegment) {
     const pill = document.getElementById('profile-pill-label'); if (pill) pill.textContent = userSegment;
     const btn = document.querySelector(`.segment-btn[data-segment="${userSegment}"]`);
     if (btn) btn.classList.add('selected');
     document.getElementById('onboarding-context').value = userContext;
-    document.getElementById('onboarding-start').disabled = false;
   }
 }
 
 function saveProfile() {
-  localStorage.setItem('dj_profile', JSON.stringify({ segment: userSegment, context: userContext }));
+  localStorage.setItem('dj_profile', JSON.stringify({ segment: userSegment, context: userContext, goals: userGoals }));
 }
 
 loadProfile();
@@ -1641,20 +1844,48 @@ loadProfile();
   if (k) document.getElementById('bedrock-key').value = k;
 })();
 
-// ── Onboarding ─────────────────────────────────────────────────────────────
-const SEGMENT_CONTEXT = {
-  'Explorer':      'The reader is an educated millennial charting their own path — entrepreneurial, open to new ideas, building wealth independently.',
-  'Pre-Suite':     'The reader is an early to mid-career professional striving for higher status — focused on career advancement, growing their income, and building long-term wealth.',
-  'Current Core':  'The reader is a high-achieving intellectual, late career or retired — financially sophisticated, with deep knowledge of business and markets, focused on wealth preservation and legacy.',
-  'Next Gen':      'The reader is under 30 or a student — early in their financial journey, focused on career growth, student debt, and building foundational financial literacy.',
-  'C-Suite':       'The reader is a senior executive or decision-maker — focused on strategic, macro-level implications and how news affects their organization and investment portfolio.',
-};
+let onboardingStep = 1;
+
+function setOnboardingStep(step) {
+  onboardingStep = step;
+  [1, 2, 3].forEach(n => {
+    document.getElementById('onboarding-step-' + n).style.display = n === step ? 'block' : 'none';
+    const dot = document.getElementById('step-dot-' + n);
+    dot.classList.toggle('active', n === step);
+    dot.classList.toggle('done', n < step);
+  });
+  const nextBtn = document.getElementById('onboarding-next');
+  const backBtn = document.getElementById('onboarding-back');
+  backBtn.style.display = step > 1 ? 'block' : 'none';
+  if (step === 3) {
+    nextBtn.textContent = 'Get Started';
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.textContent = 'Next';
+    nextBtn.disabled = step === 1 && !userSegment;
+  }
+}
 
 function selectSegment(btn) {
   document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   userSegment = btn.dataset.segment;
-  document.getElementById('onboarding-start').disabled = false;
+  document.getElementById('onboarding-next').disabled = false;
+}
+
+function onboardingNext() {
+  if (onboardingStep === 1) {
+    renderGoals(userSegment);
+    setOnboardingStep(2);
+  } else if (onboardingStep === 2) {
+    setOnboardingStep(3);
+  } else {
+    finishOnboarding();
+  }
+}
+
+function onboardingBack() {
+  setOnboardingStep(onboardingStep - 1);
 }
 
 function finishOnboarding() {
@@ -1665,13 +1896,25 @@ function finishOnboarding() {
 }
 
 function reopenOnboarding() {
+  onboardingStep = 1;
+  setOnboardingStep(1);
   document.getElementById('onboarding-overlay').style.display = 'flex';
 }
 
 function buildSegmentPrefix() {
   if (!userSegment) return '';
-  let prefix = `Reader profile: ${SEGMENT_CONTEXT[userSegment]}`;
-  if (userContext) prefix += ` Additional context: ${userContext}`;
+  const base = {
+    'Explorer':     'an entrepreneurial millennial professional building wealth independently',
+    'Pre-Suite':    'an ambitious early-to-mid-career professional focused on advancement and growing income',
+    'Current Core': 'a financially sophisticated reader, late career or retired, focused on wealth preservation',
+    'Next Gen':     'a reader early in their career or still in school, building financial literacy from the ground up',
+    'C-Suite':      'a senior executive focused on strategic and organizational implications',
+  };
+  const goalList = userGoals.length ? userGoals.join(', ') : null;
+  let prefix = `Tailor your response — without saying so — for ${base[userSegment] || 'a WSJ reader'}.`;
+  if (goalList) prefix += ` Weight your answer toward what matters for someone focused on: ${goalList}.`;
+  if (userContext) prefix += ` Extra context about this reader: ${userContext}.`;
+  prefix += ` Do not mention the reader's profile or goals. Just let it shape which details you emphasize and what you connect it to.`;
   return prefix + '\n\n';
 }
 
@@ -1813,6 +2056,41 @@ function closePopup() {
   removeHighlight();
 }
 
+// ── Popup Drag ─────────────────────────────────────────────────────────────
+(function() {
+  const popup = document.getElementById('dj-popup');
+  const header = popup.querySelector('.dj-popup-header');
+  let dragging = false, startX, startY, origLeft, origTop;
+
+  header.addEventListener('mousedown', function(e) {
+    if (e.target.closest('.dj-close')) return;
+    dragging = true;
+    const rect = popup.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    origLeft = rect.left + window.scrollX;
+    origTop  = rect.top  + window.scrollY;
+    header.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    const newLeft = Math.max(0, origLeft + dx);
+    const newTop  = Math.max(0, origTop  + dy);
+    popup.style.left = newLeft + 'px';
+    popup.style.top  = newTop  + 'px';
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!dragging) return;
+    dragging = false;
+    header.classList.remove('dragging');
+  });
+})();
+
 // ── Button Modes ───────────────────────────────────────────────────────────
 async function runMode(mode) {
   if (!currentSelection) return;
@@ -1865,7 +2143,7 @@ async function submitQuery() {
   if (aiMode === 'live') {
     try {
       const articleText = getArticleText();
-      const systemPrompt = SYSTEM_PROMPTS.query +
+      const systemPrompt = buildSegmentPrefix() + SYSTEM_PROMPTS.query +
         `\n\nFull article for context:\n\n${articleText}\n\nThe user highlighted this passage: "${currentSelection}"`;
       const text = await callBedrockRaw(systemPrompt, chatHistory);
       thinkingEl.remove();
@@ -2010,7 +2288,7 @@ function showQueryInput() {
     <div class="dj-chat-wrap">
       <div class="dj-chat-messages" id="dj-chat-messages"></div>
       <div class="dj-chat-input-row">
-        <textarea id="dj-chat-input" class="dj-chat-input" rows="1" placeholder="Ask a question…"></textarea>
+        <textarea id="dj-chat-input" class="dj-chat-input" rows="1" placeholder="Ask WSJ AI…"></textarea>
         <button class="dj-chat-send" id="dj-chat-send" onclick="submitQuery()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
@@ -2055,9 +2333,9 @@ function renderNextMoves(text) {
   const cards = text.split(/\n\n+/).filter(s => s.trim());
   return cards.map(card => {
     const lines = card.trim().split(/\n/);
-    const title = lines[0].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.+?)\*\*/g,'$1');
+    const title = lines[0].replace(/^\d+\.\s*/, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.+?)\*\*/g,'$1');
     const body = lines.slice(1).join(' ').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.+?)\*\*/g,'$1');
-    return `<div class="next-move-card"><div class="next-move-title">${title}</div>${body ? `<div class="next-move-body">${body}</div>` : ''}</div>`;
+    return `<div class="next-move-card"><div class="next-move-title"><svg class="next-move-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>${title}</div>${body ? `<div class="next-move-body">${body}</div>` : ''}</div>`;
   }).join('');
 }
 
