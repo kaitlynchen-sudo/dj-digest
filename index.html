@@ -258,7 +258,6 @@
     .article-intro-img { width: 100%; }
     .article-inset-row { flex-direction: column; }
     .article-newsletter-inset { width: 100%; }
-    .wsj-ticker-bar { display: none; }
   }
 
   /* ── Page layout: 1440px Figma-exact ── */
@@ -1153,6 +1152,9 @@
     font-size: 10px;
     font-weight: 500;
   }
+  /* Mobile-only elements (hidden by default on desktop) */
+  .mobile-only { display: none; }
+
   /* ── Onboarding Modal ── */
   #onboarding-overlay {
     position: fixed;
@@ -1537,54 +1539,213 @@
   }
   .settings-cancel-btn:hover { border-color: #888; color: #333; }
 
-  /* ── Mobile / iPhone Pro Max (≤ 480px) ── */
+  /* ── Mobile (≤ 768px) — WSJ Figma 375px layout ── */
   @media (max-width: 768px) {
 
-    /* Article columns: single column, no padding */
+    /* Show mobile-only elements */
+    .mobile-only { display: block; }
+
+    /* ── Slim mobile header (49px): hide full desktop header ── */
+    .wsj-ticker-bar { display: block; }
+    .wsj-ticker-items { justify-content: flex-start; padding: 0 16px; gap: 28px; }
+    .ticker-desktop-only { display: none; }
+    .wsj-top-bar { display: none; }
+    .wsj-logo-row { display: none; }
+    .wsj-nav { display: none; }
+    .wsj-header { padding: 0; border-bottom: none; }
+    .wsj-slim-header {
+      display: flex !important;
+      align-items: center;
+      justify-content: space-between;
+      height: 49px;
+      padding: 0 8px;
+      background: #fff;
+      border-bottom: 1px solid #f4f4f4;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .wsj-slim-header-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #222;
+    }
+    .wsj-slim-header-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .wsj-slim-header-logo img { height: 24px; width: auto; }
+
+    /* ── Market data bar: show condensed version ── */
+    .wsj-mobile-market-bar {
+      display: flex !important;
+      background: #222;
+      padding: 6px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .wsj-mobile-market-bar::-webkit-scrollbar { display: none; }
+
+    /* ── Leaderboard ad: hidden on mobile ── */
+    .wsj-leaderboard-ad { display: none; }
+
+    /* ── Article columns: single column, 20px side padding ── */
     .article-columns {
       flex-direction: column;
-      padding: 0 16px;
+      padding: 0 20px;
       gap: 0;
     }
     .article-wrapper {
       width: 100% !important;
       padding: 16px 0 24px;
     }
-    .sidebar-wrapper {
-      width: 100% !important;
-      padding: 16px 0;
+    .sidebar-wrapper { display: none; }
+
+    /* ── Headline block ── */
+    h1 {
+      font-size: 26px !important;
+      line-height: 32px !important;
     }
 
-    /* Ads: scale down to fit */
-    .wsj-leaderboard-ad img { width: 100%; height: auto; }
-    .wsj-fullbleed-ad img { width: 100%; height: auto; }
-    .wsj-sidebar-ad img { width: 100%; height: auto; }
-
-    /* Intro grid: stack photo above text */
+    /* ── Intro: stack hero image full-bleed ABOVE column ── */
     .article-intro-split {
       flex-direction: column !important;
+      gap: 0 !important;
+      margin: 0 -20px 0 !important;
     }
-    .article-intro-split > div {
+    .article-intro-split > div:first-child {
+      width: 100% !important;
+      flex-shrink: unset !important;
+    }
+    .article-intro-split > div:first-child img {
+      width: 100% !important;
+      height: 187px !important;
+      object-fit: cover;
+    }
+    .article-intro-split > div:last-child {
+      width: 100% !important;
+      padding: 12px 0 0;
+      margin-top: 0;
+    }
+
+    /* Caption inside intro image */
+    .article-intro-split > div:first-child p {
+      padding: 8px 20px 12px;
+      margin: 0;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    /* ── Newsletter inset: full width, stacked ── */
+    .article-newsletter-split {
+      flex-direction: column !important;
+      gap: 0 !important;
+    }
+    .article-newsletter-split-inset {
+      width: 100% !important;
+      flex-shrink: unset !important;
+      margin-bottom: 16px;
+    }
+    .article-newsletter-split > div:last-child {
       width: 100% !important;
     }
 
-    /* Headline: smaller on mobile */
-    h1 { font-size: 26px !important; line-height: 32px !important; }
+    /* ── Desktop fullbleed ad: hide ── */
+    .wsj-fullbleed-ad { display: none; }
 
-    /* Header: shrink logo, hide edition bar */
-    .wsj-logo img { height: 32px !important; }
-    .wsj-logo-row { padding: 12px 16px 8px; }
-    .wsj-nav { font-size: 11px; padding: 0 8px; }
-    .wsj-nav span { padding: 7px 8px; }
-    .wsj-ticker-bar { display: none; }
+    /* ── Mobile 300x250 inline ads ── */
+    .mobile-ad-block {
+      display: block !important;
+      background: #f4f4f4;
+      margin: 0 -20px;
+      padding: 8px 0 16px;
+      text-align: center;
+    }
+    .mobile-ad-label {
+      font-family: 'Retina', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: #888;
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .mobile-ad-block .mobile-ad-box {
+      width: 300px;
+      height: 250px;
+      background: #e0e0e0;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Retina', Arial, sans-serif;
+      font-size: 12px;
+      color: #aaa;
+    }
 
-    /* Utility bar: scroll horizontally */
+    /* ── Mobile What's News module ── */
+    .mobile-whats-news {
+      display: block !important;
+      border-top: 2px solid #222;
+      margin: 0 -20px 16px;
+      padding: 12px 20px 4px;
+    }
+    .mobile-whats-news-title {
+      font-family: 'Retina', Arial, sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      color: #222;
+      margin-bottom: 0;
+    }
+    .mobile-whats-news-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .mobile-whats-news-item:last-child { border-bottom: none; }
+    .mobile-whats-news-content { flex: 1; min-width: 0; }
+    .mobile-whats-news-headline {
+      font-family: 'Retina', Arial, sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #111;
+      margin-bottom: 6px;
+    }
+    .mobile-whats-news-time {
+      font-family: 'Retina', Arial, sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: #888;
+    }
+    .mobile-whats-news-thumb {
+      flex-shrink: 0;
+      width: 68px;
+      height: 68px;
+      background: #ccc;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .mobile-whats-news-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Utility bar: scroll horizontally ── */
     .article-utility-bar { overflow-x: auto; flex-wrap: nowrap; }
 
-    /* DJ hint bar */
+    /* ── DJ hint bar ── */
     .dj-hint { font-size: 11px; }
 
-    /* Popup: bottom sheet */
+    /* ── Popup: bottom sheet ── */
     #dj-popup {
       position: fixed !important;
       bottom: 0 !important;
@@ -1599,25 +1760,84 @@
     .dj-btn { font-size: 10px; padding: 8px 2px; gap: 5px; }
     .dj-chat-messages { max-height: 240px; }
 
-    /* Onboarding: full screen */
-    #onboarding-overlay .onboarding-card {
+    /* ── Onboarding ── */
+    #onboarding-modal {
       width: 100%;
-      height: 100%;
-      max-height: 100%;
-      border-radius: 0;
-      margin: 0;
+      max-width: 100%;
+      max-height: 100vh;
+      overflow-y: auto;
     }
-    .segment-options { grid-template-columns: 1fr 1fr; }
 
-    /* Vocab panel: full width */
+    /* ── Vocab panel: full width ── */
     #vocab-panel { width: 100%; left: 0; right: 0; border-radius: 0 0 6px 6px; }
 
-    /* News For You module: full width */
-    .sidebar-wrapper > div[style*="width:300px"] { width: 100% !important; }
+    /* Settings gear: lower on mobile */
+    #settings-gear { bottom: 16px; right: 16px; }
+
+    /* ── Utility bar: mobile 5-icon layout ── */
+    .article-utility-bar-desktop { display: none !important; }
+    .article-utility-bar-mobile {
+      display: flex !important;
+      align-items: center;
+      justify-content: space-around;
+      padding: 6px 0;
+    }
+    .utility-btn-mob {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #555;
+      padding: 6px 10px;
+      gap: 3px;
+    }
+
+    /* ── Hero image: full-bleed ── */
+    .article-intro-split > div:first-child img {
+      height: auto !important;
+      min-height: 220px;
+    }
+
+    /* ── DJ hint bar: hidden on mobile (minimal interference) ── */
+    .dj-hint { display: none; }
+
+    /* ── Headline font tweak for mobile ── */
+    h1 {
+      font-size: 28px !important;
+      line-height: 34px !important;
+    }
+
+    /* ── Follow button pill shape ── */
+    .follow-btn-mobile {
+      border: 1px solid #0274b6 !important;
+      border-radius: 20px !important;
+      color: #0274b6 !important;
+      background: none !important;
+      padding: 3px 12px !important;
+      font-family: 'Retina', Arial, sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 400 !important;
+      cursor: pointer;
+    }
   }
 </style>
 </head>
 <body>
+
+<!-- Mobile Slim Header (hidden on desktop via CSS) -->
+<div class="wsj-slim-header mobile-only" style="display:none;">
+  <div class="wsj-slim-header-icon">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </div>
+  <div class="wsj-slim-header-logo">
+    <img src="https://www.figma.com/api/mcp/asset/e9211424-e05a-44c7-ba2f-b1ce5d5507b1" alt="The Wall Street Journal.">
+  </div>
+  <div class="wsj-slim-header-icon">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </div>
+</div>
 
 <!-- Onboarding Modal -->
 <div id="onboarding-overlay">
@@ -1686,11 +1906,12 @@
 <div class="wsj-header">
   <div class="wsj-ticker-bar">
     <div class="wsj-ticker-items">
-      <div class="ticker-item"><span class="ticker-name">S&amp;P 500</span><span class="ticker-value">3,096.63</span><span class="ticker-change up">0.08% ▲</span></div>
-      <div class="ticker-item"><span class="ticker-name">Nasdaq</span><span class="ticker-value">8,479.02</span><span class="ticker-change down">-0.04% ▼</span></div>
-      <div class="ticker-item"><span class="ticker-name">U.S. 10 Yr</span><span class="ticker-value">28/32</span><span class="ticker-change up">Yield 1.824% ▲</span></div>
-      <div class="ticker-item"><span class="ticker-name">Crude Oil</span><span class="ticker-value">56.87</span><span class="ticker-change down">-0.44% ▼</span></div>
-      <div class="ticker-item"><span class="ticker-name">Euro</span><span class="ticker-value">1.1068</span><span class="ticker-change down">-0.09% ▼</span></div>
+      <div class="ticker-item"><span class="ticker-name">DJIA</span><span class="ticker-value">33,035.93</span><span class="ticker-change down">-0.32% ▼</span></div>
+      <div class="ticker-item ticker-desktop-only"><span class="ticker-name">S&amp;P 500</span><span class="ticker-value">3,096.63</span><span class="ticker-change up">0.08% ▲</span></div>
+      <div class="ticker-item ticker-desktop-only"><span class="ticker-name">Nasdaq</span><span class="ticker-value">8,479.02</span><span class="ticker-change down">-0.04% ▼</span></div>
+      <div class="ticker-item"><span class="ticker-name">U.S. 10 Yr</span><span class="ticker-value">1.825%</span><span class="ticker-change up">▲</span></div>
+      <div class="ticker-item"><span class="ticker-name">Euro</span><span class="ticker-value">0.32%</span><span class="ticker-change up">▲</span></div>
+      <div class="ticker-item ticker-desktop-only"><span class="ticker-name">Crude Oil</span><span class="ticker-value">56.87</span><span class="ticker-change down">-0.44% ▼</span></div>
     </div>
   </div>
   <div class="wsj-logo-row">
@@ -1740,27 +1961,38 @@
           <span style="width:4px;"></span>
           <a href="#" style="font-family:'Exchange',Georgia,serif;font-style:italic;font-size:14px;color:#0274b6;text-decoration:none;">Salvador Rodriguez</a>
           <span style="width:4px;"></span>
-          <button style="border:1px solid #0274b6;color:#0274b6;background:none;font-family:'Retina',Arial,sans-serif;font-size:12px;font-weight:300;padding:2px 8px;border-radius:2px;cursor:pointer;">Follow</button>
+          <button class="follow-btn-mobile" style="border:1px solid #0274b6;color:#0274b6;background:none;font-family:'Retina',Arial,sans-serif;font-size:12px;font-weight:300;padding:2px 8px;border-radius:2px;cursor:pointer;">Follow</button>
         </div>
         <!-- Date -->
         <div style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:12px;color:#555;margin-bottom:16px;">October 26, 2022, 12:00pm ET</div>
         <!-- Utility bar -->
-        <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;padding:4px 8px;margin-bottom:12px;">
-          <!-- Left: icon tools -->
-          <div style="display:flex;align-items:center;gap:0;">
-            <button class="utility-btn" title="Share"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-            <button class="utility-btn" title="Save"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            <button class="utility-btn" title="Text size"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><text x="2" y="18" font-size="15" font-family="Georgia,serif" fill="#555">Aa</text></svg></button>
-            <button class="utility-btn" title="Comments" style="gap:4px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span style="font-family:'Retina',Arial,sans-serif;font-size:14px;font-weight:500;color:#555;">280</span></button>
+        <div class="article-utility-bar-wrap" style="border-top:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;margin-bottom:12px;">
+          <!-- Desktop layout -->
+          <div class="article-utility-bar-desktop" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;">
+            <!-- Left: icon tools -->
+            <div class="utility-left-icons" style="display:flex;align-items:center;gap:0;">
+              <button class="utility-btn" title="Share"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+              <button class="utility-btn" title="Save"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+              <button class="utility-btn" title="Text size"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><text x="2" y="18" font-size="15" font-family="Georgia,serif" fill="#555">Aa</text></svg></button>
+              <button class="utility-btn" title="Comments" style="gap:4px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span style="font-family:'Retina',Arial,sans-serif;font-size:14px;font-weight:500;color:#555;">280</span></button>
+            </div>
+            <!-- Right: text actions -->
+            <div class="utility-right-text" style="display:flex;align-items:center;">
+              <div class="utility-divider"></div>
+              <button class="utility-btn" title="Gift article" style="gap:6px;padding:4px 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span class="utility-text-label" style="font-family:'Retina',Arial,sans-serif;font-weight:500;font-size:14px;color:#555;">Gift unlocked article</span></button>
+              <div class="utility-divider"></div>
+              <button class="utility-btn" title="Listen" style="gap:6px;padding:4px 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span class="utility-text-label" style="font-family:'Retina',Arial,sans-serif;font-weight:500;font-size:14px;color:#555;">Listen</span><span class="utility-text-label" style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:14px;color:#555;margin-left:2px;">(14 min)</span></button>
+              <div class="utility-divider"></div>
+              <button class="utility-btn" title="More" style="padding:4px 8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#555"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+            </div>
           </div>
-          <!-- Right: text actions -->
-          <div style="display:flex;align-items:center;">
-            <div class="utility-divider"></div>
-            <button class="utility-btn" title="Gift article" style="gap:6px;padding:4px 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span style="font-family:'Retina',Arial,sans-serif;font-weight:500;font-size:14px;color:#555;">Gift unlocked article</span></button>
-            <div class="utility-divider"></div>
-            <button class="utility-btn" title="Listen" style="gap:6px;padding:4px 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span style="font-family:'Retina',Arial,sans-serif;font-weight:500;font-size:14px;color:#555;">Listen</span><span style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:14px;color:#555;margin-left:2px;">(14 min)</span></button>
-            <div class="utility-divider"></div>
-            <button class="utility-btn" title="More" style="padding:4px 8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#555"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+          <!-- Mobile layout: 5 icons evenly spread -->
+          <div class="article-utility-bar-mobile" style="display:none;">
+            <button class="utility-btn-mob" title="Share"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+            <button class="utility-btn-mob" title="Save"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            <button class="utility-btn-mob" title="Text size"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><text x="1" y="17" font-size="14" font-family="Georgia,serif" fill="#555">Aa</text></svg></button>
+            <button class="utility-btn-mob" title="Comments" style="gap:4px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+            <button class="utility-btn-mob" title="Listen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></button>
           </div>
         </div>
         <div class="dj-hint" id="dj-hint-bar">
@@ -1810,9 +2042,47 @@
 
         <p>Meta founder and Chief Executive <a href="#">Mark Zuckerberg</a> said he is encouraged by the progress in responding to the tougher environment. "I have to say that our product trends look better from what I see," he said on a call with analysts. "I'm pretty confident this is going in a good direction."</p>
 
+        <!-- Mobile: What's News module (hidden on desktop) -->
+        <div class="mobile-whats-news mobile-only" style="display:none;">
+          <div class="mobile-whats-news-title">What's News</div>
+          <div class="mobile-whats-news-item">
+            <div class="mobile-whats-news-content">
+              <div class="mobile-whats-news-headline">Amazon Closes Deal to Acquire MGM Studios</div>
+              <div class="mobile-whats-news-time">24 min ago</div>
+            </div>
+            <div class="mobile-whats-news-thumb">
+              <img src="https://www.figma.com/api/mcp/asset/c6b53671-fa10-427b-b094-82bac24048fd" alt="">
+            </div>
+          </div>
+          <div class="mobile-whats-news-item">
+            <div class="mobile-whats-news-content">
+              <div class="mobile-whats-news-headline">EU Ruling Could 'Kneecap' Meta's Digital Ad Revenue</div>
+              <div class="mobile-whats-news-time">48 min ago</div>
+            </div>
+            <div class="mobile-whats-news-thumb">
+              <img src="https://www.figma.com/api/mcp/asset/66429e4b-65b3-49e4-9b71-a39b13cc4deb" alt="">
+            </div>
+          </div>
+          <div class="mobile-whats-news-item">
+            <div class="mobile-whats-news-content">
+              <div class="mobile-whats-news-headline">Snap Posts Disappointing Results as Ad Market Struggles</div>
+              <div class="mobile-whats-news-time">1 hr ago</div>
+            </div>
+            <div class="mobile-whats-news-thumb">
+              <img src="https://www.figma.com/api/mcp/asset/4db1a549-1bf6-4cda-b119-c26aeb68efef" alt="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile: first 300x250 ad (hidden on desktop) -->
+        <div class="mobile-ad-block mobile-only" style="display:none;">
+          <div class="mobile-ad-label">Advertisement - Scroll to Continue</div>
+          <div class="mobile-ad-box">Ad 300×250</div>
+        </div>
+
         <!-- Newsletter inset (220px) + text right (384px) -->
-        <div style="display:flex;gap:16px;margin-bottom:4px;align-items:flex-start;">
-          <div style="flex-shrink:0;width:220px;border-top:1px solid #222;border-bottom:1px solid #222;padding:20px 0;">
+        <div class="article-newsletter-split" style="display:flex;gap:16px;margin-bottom:4px;align-items:flex-start;">
+          <div class="article-newsletter-split-inset" style="flex-shrink:0;width:220px;border-top:1px solid #222;border-bottom:1px solid #222;padding:20px 0;">
             <div style="font-family:'RetinaCond',Arial,sans-serif;font-weight:500;font-size:13px;letter-spacing:0.8px;color:#555;text-transform:uppercase;margin-bottom:16px;">Newsletter Sign-up</div>
             <div style="font-family:'EscrowCondensed','Playfair Display',Georgia,serif;font-weight:700;font-size:24px;line-height:28px;color:#111;margin-bottom:20px;">Technology</div>
             <div style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:12px;line-height:18px;color:#222;margin-bottom:24px;">A weekly digest of tech reviews, headlines, columns and your questions answered by WSJ's Personal Tech gurus.</div>
@@ -1963,6 +2233,12 @@
         <p>"It's tough a time to be a big social-media company right now," said Debra Aho Williamson, principal analyst at Insider Intelligence. "You're facing a lot of pressures on revenue, usage and the worsening economy on top of it."</p>
 
         <p>Before Wednesday, Meta shares had fallen nearly 60% and the company had lost more than $550 billion in market value in 2022.</p>
+
+        <!-- Mobile: second 300x250 ad -->
+        <div class="mobile-ad-block mobile-only" style="display:none;">
+          <div class="mobile-ad-label">Advertisement - Scroll to Continue</div>
+          <div class="mobile-ad-box">Ad 300×250</div>
+        </div>
 
         <p>In its efforts to combat TikTok, Meta has given priority to the development and growth of Reels, its short-form video format on Facebook and Instagram.</p>
 
