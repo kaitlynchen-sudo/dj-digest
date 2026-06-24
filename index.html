@@ -1774,6 +1774,14 @@
     /* Settings gear: lower on mobile */
     #settings-gear { bottom: 16px; right: 16px; }
 
+    /* Prevent iOS auto-zoom on input focus (requires font-size >= 16px) */
+    .dj-chat-input,
+    .dj-negative-form textarea,
+    .onboarding-note textarea,
+    input[type="text"],
+    input[type="password"],
+    textarea { font-size: 16px !important; }
+
     /* ── Utility bar: mobile 5-icon layout ── */
     .article-utility-bar-desktop { display: none !important; }
     .article-utility-bar-mobile {
