@@ -850,21 +850,22 @@
   .dj-chat-bubble {
     max-width: 85%;
     padding: 8px 11px;
-    border-radius: 2px;
-    font-family: Georgia, serif;
+    border-radius: 0;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 13px;
+    font-weight: 300;
     line-height: 1.55;
   }
   .dj-chat-bubble.user {
     align-self: flex-end;
-    background: #1a1a1a;
+    background: #222;
     color: #fff;
   }
   .dj-chat-bubble.ai {
     align-self: flex-start;
     background: #f4f4f4;
-    color: #1a1a1a;
-    border-left: 2px solid #1a1a1a;
+    color: #222;
+    border-left: 2px solid #222;
   }
   .dj-chat-bubble.ai.thinking {
     color: #999;
@@ -876,28 +877,29 @@
     gap: 6px;
     align-items: flex-end;
     padding: 20px 14px 12px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #ccc;
   }
   .dj-chat-input {
     flex: 1;
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 13px;
+    font-weight: 300;
     border: 1px solid #ccc;
-    border-radius: 2px;
+    border-radius: 0;
     padding: 7px 12px;
     resize: none;
-    color: #1a1a1a;
+    color: #222;
     outline: none;
     line-height: 1.5;
     max-height: 80px;
     overflow-y: auto;
   }
-  .dj-chat-input:focus { border-color: #1a1a1a; }
+  .dj-chat-input:focus { border-color: #222; }
   .dj-chat-send {
-    background: #1a1a1a;
+    background: #222;
     color: #fff;
     border: none;
-    border-radius: 2px;
+    border-radius: 0;
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -906,7 +908,7 @@
     justify-content: center;
     flex-shrink: 0;
   }
-  .dj-chat-send:hover { background: #333; }
+  .dj-chat-send:hover { background: #444; }
   .dj-chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .dj-feedback {
@@ -915,13 +917,13 @@
     gap: 6px;
     margin-top: 10px;
     padding: 8px 0 4px;
-    border-top: 1px solid #e8e8e8;
+    border-top: 1px solid #ccc;
     justify-content: flex-end;
   }
   .dj-thumb-btn {
     background: none;
     border: 1px solid #ccc;
-    border-radius: 2px;
+    border-radius: 0;
     cursor: pointer;
     padding: 4px 7px;
     line-height: 1;
@@ -930,12 +932,13 @@
     align-items: center;
     transition: background 0.15s, border-color 0.15s;
   }
-  .dj-thumb-btn:hover { background: #f4f4f4; border-color: #888; color: #111; }
-  .dj-thumb-btn.selected-up { background: #f0f0f0; border-color: #1a1a1a; color: #1a1a1a; }
-  .dj-thumb-btn.selected-down { background: #f0f0f0; border-color: #1a1a1a; color: #1a1a1a; }
+  .dj-thumb-btn:hover { background: #f4f4f4; border-color: #555; color: #222; }
+  .dj-thumb-btn.selected-up { background: #f4f4f4; border-color: #222; color: #222; }
+  .dj-thumb-btn.selected-down { background: #f4f4f4; border-color: #222; color: #222; }
   .dj-feedback-thanks {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
+    font-family: 'Retina', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
     color: #555;
     margin-left: 4px;
   }
@@ -948,32 +951,33 @@
   .dj-negative-form textarea {
     width: 100%;
     box-sizing: border-box;
-    font-family: Georgia, serif;
-    font-size: 12px;
+    font-family: 'Retina', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 300;
     border: 1px solid #ccc;
-    border-radius: 2px;
+    border-radius: 0;
     padding: 6px 8px;
     resize: none;
-    color: #1a1a1a;
+    color: #222;
     outline: none;
     line-height: 1.5;
   }
-  .dj-negative-form textarea:focus { border-color: #1a1a1a; }
+  .dj-negative-form textarea:focus { border-color: #222; }
   .dj-negative-submit {
     align-self: flex-end;
-    background: #1a1a1a;
+    background: #222;
     color: #fff;
     border: none;
-    border-radius: 2px;
+    border-radius: 0;
     padding: 5px 14px;
     font-size: 11px;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
+    font-family: 'Retina', Arial, sans-serif;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     cursor: pointer;
   }
-  .dj-negative-submit:hover { background: #333; }
+  .dj-negative-submit:hover { background: #444; }
 
   /* ── Add to Notebook ── */
   .vocab-add-btn {
@@ -1073,14 +1077,14 @@
   /* ── Next Move Items ── */
   .next-move-card {
     padding: 10px 0;
-    border-bottom: 1px solid #e8e8e4;
+    border-bottom: 1px solid #ccc;
   }
   .next-move-card:last-child { border-bottom: none; }
   .next-move-title {
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 13px;
-    font-weight: bold;
-    color: #1a1a1a;
+    font-weight: 500;
+    color: #222;
     margin-bottom: 4px;
     display: flex;
     align-items: center;
@@ -1088,9 +1092,10 @@
   }
   .next-move-icon { flex-shrink: 0; color: #888; margin-left: -3px; }
   .next-move-body {
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 13px;
-    color: #444;
+    font-weight: 300;
+    color: #555;
     line-height: 1.6;
   }
 
