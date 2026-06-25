@@ -648,13 +648,33 @@
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 0;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     width: 340px;
     max-height: 80vh;
     display: none;
     overflow-y: auto;
     overflow-x: hidden;
     animation: popupIn 0.15s ease;
+  }
+  #dj-popup::before {
+    content: '';
+    position: absolute;
+    top: -9px;
+    left: 20px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #ccc;
+    pointer-events: none;
+  }
+  #dj-popup::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+    pointer-events: none;
   }
 
   @keyframes popupIn {
@@ -663,13 +683,13 @@
   }
 
   .dj-popup-header {
-    background: #faf8f4;
-    color: #1a1a1a;
-    padding: 10px 14px;
+    background: #fff;
+    color: #222;
+    padding: 14px 16px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid #1a1a1a;
+    border-bottom: 1px solid #ccc;
     cursor: grab;
     user-select: none;
     position: sticky;
@@ -678,44 +698,34 @@
   }
   .dj-popup-header.dragging { cursor: grabbing; }
   .dj-popup-header-title {
-    font-family: 'Retina', Arial, sans-serif;
+    font-family: 'Retina Narrow', 'Retina', Arial, sans-serif;
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 6px;
-    color: #1a1a1a;
-  }
-  .dj-popup-header-title span.badge {
-    background: #ddd6c8;
-    color: #555;
-    border-radius: 2px;
-    padding: 1px 6px;
-    font-size: 10px;
-    font-family: 'Retina', Arial, sans-serif;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    color: #222;
   }
   .dj-close {
     background: none;
     border: none;
     color: #999;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     line-height: 1;
     padding: 0 2px;
   }
-  .dj-close:hover { color: #1a1a1a; }
+  .dj-close:hover { color: #222; }
 
   .dj-selected-text {
-    padding: 10px 14px;
-    background: #f8f8f8;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 16px;
+    background: #f4f4f4;
+    border-bottom: 1px solid #ccc;
     font-family: 'Exchange', Georgia, serif;
     font-size: 13px;
-    color: #444;
+    color: #555;
     font-style: italic;
     max-height: 64px;
     overflow: hidden;
@@ -727,9 +737,9 @@
   .dj-buttons {
     display: flex;
     gap: 0;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #ccc;
     position: sticky;
-    top: 41px;
+    top: 47px;
     background: #fff;
     z-index: 1;
   }
@@ -745,8 +755,8 @@
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
-    color: #333;
-    border-right: 1px solid #e0e0e0;
+    color: #555;
+    border-right: 1px solid #ccc;
     transition: background 0.12s, color 0.12s;
     display: flex;
     flex-direction: column;
@@ -755,8 +765,8 @@
   }
   .dj-btn:last-child { border-right: none; }
   .dj-btn .btn-icon { display: block; flex-shrink: 0; }
-  .dj-btn:hover { background: #f4f4f4; color: #000; }
-  .dj-btn.active { background: #fff; color: #1a1a1a; box-shadow: inset 0 -2px 0 #1a1a1a; }
+  .dj-btn:hover { background: #f4f4f4; color: #222; }
+  .dj-btn.active { background: #fff; color: #222; box-shadow: inset 0 -2px 0 #222; }
   .dj-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .dj-response-area {
@@ -810,12 +820,12 @@
   }
 
   .dj-footer {
-    background: #f8f8f8;
-    border-top: 1px solid #e0e0e0;
-    padding: 6px 14px;
-    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    border-top: 1px solid #ccc;
+    padding: 6px 16px;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 10px;
-    color: #aaa;
+    color: #999;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -1792,6 +1802,7 @@
       max-height: 80vh;
       overflow-y: auto;
     }
+    #dj-popup::before, #dj-popup::after { display: none; }
     .dj-btn { font-size: 10px; padding: 8px 2px; gap: 5px; }
     .dj-chat-messages { max-height: 240px; }
 
@@ -2381,7 +2392,8 @@
 <div id="dj-popup">
   <div class="dj-popup-header">
     <div class="dj-popup-header-title">
-      ✦ DJ Digest
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
+      DJ Digest
     </div>
     <button class="dj-close" onclick="closePopup()" title="Close">✕</button>
   </div>
