@@ -1861,6 +1861,11 @@
     }
     #dj-settings-popup::before,
     #dj-settings-popup::after { display: none; }
+    .dj-settings-header { padding: 16px 20px; }
+    .dj-settings-notebook-row { padding: 16px 20px; }
+    .dj-toggle { width: 40px; height: 22px; }
+    .dj-toggle-slider::before { width: 16px; height: 16px; }
+    .dj-toggle input:checked + .dj-toggle-slider::before { transform: translateX(18px); }
     @keyframes slideUp {
       from { transform: translateY(100%); opacity: 0; }
       to   { transform: translateY(0);   opacity: 1; }
