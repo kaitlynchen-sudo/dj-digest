@@ -572,7 +572,13 @@
     width: 0; height: 0;
   }
   .dj-settings-header {
-    padding: 14px 16px 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+  }
+  .dj-settings-header-title {
     font-family: 'Retina Narrow', 'Retina', Arial, sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -580,38 +586,30 @@
     text-transform: uppercase;
     color: #222;
   }
-  .dj-settings-body {
-    padding: 0 0 8px;
-    display: flex;
-    flex-direction: column;
-  }
-  .dj-settings-row {
+  .dj-settings-notebook-row {
     display: flex;
     align-items: center;
-    gap: 0;
-    padding: 4px 16px 4px 8px;
+    justify-content: space-between;
+    padding: 12px 16px;
     cursor: pointer;
+    border-top: 1px solid #ccc;
   }
-  .dj-settings-row:hover { background: #f4f4f4; }
-  .dj-settings-row-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 1px solid #222;
+  .dj-settings-notebook-row:hover { background: #f4f4f4; }
+  .dj-settings-notebook-label {
+    font-family: 'Retina', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: #222;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+  }
+  .dj-settings-notebook-chevron {
+    color: #999;
+    transition: transform 0.15s;
     flex-shrink: 0;
   }
-  .dj-settings-row-label {
-    font-family: 'Retina', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #555;
-    margin-left: 14px;
-  }
+  .dj-settings-notebook-chevron.open { transform: rotate(180deg); }
   .dj-toggle {
     position: relative;
     width: 32px;
@@ -1101,7 +1099,7 @@
 
   /* ── Notebook Panel ── */
   #vocab-panel {
-    border-top: 1px solid #ccc;
+    border-top: none;
     background: #fff;
     display: none;
     overflow: hidden;
@@ -1189,18 +1187,6 @@
     line-height: 1.5;
   }
 
-  .dj-settings-notebook-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 4px 16px 4px 8px;
-    width: 100%;
-    text-align: left;
-  }
-  .dj-settings-notebook-btn:hover { background: #f4f4f4; }
   #vocab-count {
     background: #0274b6;
     color: #fff;
@@ -2102,27 +2088,20 @@
         </div>
         <!-- DJ Settings popup — outside both desktop/mobile bars so it shows on both -->
         <div id="dj-settings-popup">
-          <div class="dj-settings-header">DJ Digest</div>
-          <div class="dj-settings-body">
-            <div class="dj-settings-row" onclick="toggleDjDigest()">
-              <div class="dj-settings-row-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
-              </div>
-              <span class="dj-settings-row-label" id="dj-toggle-label">Disable AI insights</span>
-              <input type="checkbox" id="dj-toggle-input" checked style="display:none;">
-            </div>
-            <button class="dj-settings-notebook-btn" onclick="toggleVocabPanel()">
-              <div class="dj-settings-row-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              </div>
-              <span class="dj-settings-row-label">Notebook <span id="vocab-count">0</span></span>
-            </button>
+          <div class="dj-settings-header">
+            <span class="dj-settings-header-title">DJ Digest</span>
+            <label class="dj-toggle" onclick="toggleDjDigest()">
+              <input type="checkbox" id="dj-toggle-input" checked>
+              <span class="dj-toggle-slider"></span>
+            </label>
+          </div>
+          <div class="dj-settings-notebook-row" onclick="toggleVocabPanel()">
+            <span class="dj-settings-notebook-label">
+              Notebook <span id="vocab-count" style="background:#0274b6;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:500;">0</span>
+            </span>
+            <svg class="dj-settings-notebook-chevron" id="dj-notebook-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div id="vocab-panel">
-            <div class="vocab-panel-header">
-              Notebook
-              <button class="vocab-panel-close" onclick="toggleVocabPanel()">✕</button>
-            </div>
             <div class="vocab-panel-body" id="vocab-panel-body">
               <div class="vocab-panel-empty" id="vocab-empty">No words saved yet.</div>
             </div>
@@ -2478,8 +2457,6 @@ function toggleDjDigest() {
   djEnabled = !djEnabled;
   const input = document.getElementById('dj-toggle-input');
   if (input) input.checked = djEnabled;
-  const label = document.getElementById('dj-toggle-label');
-  if (label) label.textContent = djEnabled ? 'Disable AI insights' : 'Enable AI insights';
   if (!djEnabled) {
     document.getElementById('dj-popup').style.display = 'none';
   } else if (!userSegment) {
@@ -3235,7 +3212,10 @@ function deleteVocab(i) {
 
 function toggleVocabPanel() {
   const panel = document.getElementById('vocab-panel');
-  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+  const chevron = document.getElementById('dj-notebook-chevron');
+  const isOpen = panel.style.display === 'block';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (chevron) chevron.classList.toggle('open', !isOpen);
 }
 
 function escHtml(str) {
