@@ -2090,8 +2090,8 @@
         <div id="dj-settings-popup">
           <div class="dj-settings-header">
             <span class="dj-settings-header-title">DJ Digest</span>
-            <label class="dj-toggle" onclick="toggleDjDigest()">
-              <input type="checkbox" id="dj-toggle-input" checked>
+            <label class="dj-toggle">
+              <input type="checkbox" id="dj-toggle-input" checked onchange="toggleDjDigest()">
               <span class="dj-toggle-slider"></span>
             </label>
           </div>
@@ -2454,9 +2454,8 @@ function toggleDjSettingsPopup(e) {
 }
 
 function toggleDjDigest() {
-  djEnabled = !djEnabled;
   const input = document.getElementById('dj-toggle-input');
-  if (input) input.checked = djEnabled;
+  djEnabled = input.checked;
   if (!djEnabled) {
     document.getElementById('dj-popup').style.display = 'none';
   } else if (!userSegment) {
