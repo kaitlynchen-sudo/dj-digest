@@ -2006,43 +2006,13 @@
         <!-- Date -->
         <div style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:12px;color:#555;margin-bottom:16px;">October 26, 2022, 12:00pm ET</div>
         <!-- Utility bar -->
+        <div style="position:relative;">
         <div class="article-utility-bar-wrap" style="border-top:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;margin-bottom:12px;background:#f4f4f4;">
           <!-- Desktop layout -->
           <div class="article-utility-bar-desktop" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;">
             <!-- Left: icon tools -->
             <div class="utility-left-icons" style="display:flex;align-items:center;">
-              <div style="position:relative;">
-                <button class="utility-btn" id="dj-settings-btn" title="DJ Digest" onclick="toggleDjSettingsPopup(event)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg></button>
-                <div id="dj-settings-popup">
-                  <div class="dj-settings-header">DJ Digest</div>
-                  <div class="dj-settings-body">
-                    <!-- Enable/disable row -->
-                    <div class="dj-settings-row" onclick="toggleDjDigest()">
-                      <div class="dj-settings-row-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
-                      </div>
-                      <span class="dj-settings-row-label" id="dj-toggle-label">Disable AI insights</span>
-                      <input type="checkbox" id="dj-toggle-input" checked onchange="toggleDjDigest()" onclick="event.stopPropagation()" style="display:none;">
-                    </div>
-                    <!-- Notebook row -->
-                    <button class="dj-settings-notebook-btn" onclick="toggleVocabPanel()">
-                      <div class="dj-settings-row-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                      </div>
-                      <span class="dj-settings-row-label">Notebook <span id="vocab-count">0</span></span>
-                    </button>
-                  </div>
-                  <div id="vocab-panel">
-                    <div class="vocab-panel-header">
-                      Notebook
-                      <button class="vocab-panel-close" onclick="toggleVocabPanel()">✕</button>
-                    </div>
-                    <div class="vocab-panel-body" id="vocab-panel-body">
-                      <div class="vocab-panel-empty" id="vocab-empty">No words saved yet.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <button class="utility-btn" id="dj-settings-btn" title="DJ Digest" onclick="toggleDjSettingsPopup(event)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg></button>
               <div class="utility-divider"></div>
               <button class="utility-btn" title="Share"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
               <button class="utility-btn" title="Save"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
@@ -2061,7 +2031,7 @@
           </div>
           <!-- Mobile layout: 5 icons evenly spread -->
           <div class="article-utility-bar-mobile" style="display:none;background:#f4f4f4;">
-            <button class="utility-btn-mob" title="DJ Digest" onclick="toggleDjSettingsPopup(event)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg></button>
+            <button class="utility-btn-mob" id="dj-settings-btn-mob" title="DJ Digest" onclick="toggleDjSettingsPopup(event)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg></button>
             <button class="utility-btn-mob" title="Share"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
             <button class="utility-btn-mob" title="Save"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
             <button class="utility-btn-mob" title="Text size"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><text x="1" y="17" font-size="14" font-family="Georgia,serif" fill="#222">Aa</text></svg></button>
@@ -2069,6 +2039,35 @@
             <button class="utility-btn-mob" title="Listen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></button>
           </div>
         </div>
+        <!-- DJ Settings popup — outside both desktop/mobile bars so it shows on both -->
+        <div id="dj-settings-popup">
+          <div class="dj-settings-header">DJ Digest</div>
+          <div class="dj-settings-body">
+            <div class="dj-settings-row" onclick="toggleDjDigest()">
+              <div class="dj-settings-row-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
+              </div>
+              <span class="dj-settings-row-label" id="dj-toggle-label">Disable AI insights</span>
+              <input type="checkbox" id="dj-toggle-input" checked style="display:none;">
+            </div>
+            <button class="dj-settings-notebook-btn" onclick="toggleVocabPanel()">
+              <div class="dj-settings-row-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <span class="dj-settings-row-label">Notebook <span id="vocab-count">0</span></span>
+            </button>
+          </div>
+          <div id="vocab-panel">
+            <div class="vocab-panel-header">
+              Notebook
+              <button class="vocab-panel-close" onclick="toggleVocabPanel()">✕</button>
+            </div>
+            <div class="vocab-panel-body" id="vocab-panel-body">
+              <div class="vocab-panel-empty" id="vocab-empty">No words saved yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
 
       <div class="article-body">
@@ -2667,7 +2666,7 @@ document.addEventListener('mousedown', function(e) {
     closePopup();
   }
   const settingsPopup = document.getElementById('dj-settings-popup');
-  if (!settingsPopup.contains(e.target) && !e.target.closest('#dj-settings-btn')) {
+  if (!settingsPopup.contains(e.target) && !e.target.closest('#dj-settings-btn') && !e.target.closest('#dj-settings-btn-mob')) {
     settingsPopup.style.display = 'none';
   }
 });
