@@ -352,44 +352,62 @@
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 10px 0;
-    border-top: 1px solid #e8e8e8;
-    border-bottom: 1px solid #e8e8e8;
     margin-bottom: 12px;
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Retina', Arial, sans-serif;
   }
-  .utility-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 0 14px;
-  }
-  .utility-group:first-child { padding-left: 0; }
   .utility-divider {
     width: 1px;
-    height: 20px;
-    background: #d8d8d8;
+    align-self: stretch;
+    background: #222;
     flex-shrink: 0;
+    margin: 4px 8px;
   }
+  /* Icon-only pill button */
   .utility-btn {
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    gap: 0;
     background: none;
     border: none;
     cursor: pointer;
-    color: #555;
-    padding: 4px 6px;
-    border-radius: 3px;
-    font-size: 12px;
-    font-family: inherit;
+    color: #222;
+    padding: 4px;
+    border-radius: 9999px;
     white-space: nowrap;
   }
-  .utility-btn:hover { color: #000; background: #f4f4f4; }
+  .utility-btn:hover { background: #e8e8e8; }
   .utility-btn svg { flex-shrink: 0; }
-  .utility-btn .u-label { font-weight: 600; color: #222; }
-  .utility-btn .u-sub { color: #888; font-weight: 400; margin-left: 2px; }
-  .utility-count { font-size: 12px; color: #555; }
+  /* Text+icon button (rectangular) */
+  .utility-btn-text {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #222;
+    padding: 4px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .utility-btn-text:hover { background: #e8e8e8; }
+  .utility-btn-text svg { flex-shrink: 0; margin-right: 8px; }
+  .utility-btn-text .u-label {
+    font-family: 'Retina', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #222;
+    line-height: 20px;
+  }
+  .utility-btn-text .u-sub {
+    font-family: 'Retina', Arial, sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #222;
+    margin-left: 8px;
+    line-height: 20px;
+  }
 
   .article-meta {
     font-family: 'Inter', Arial, sans-serif;
@@ -518,37 +536,81 @@
   }
   .sidebar-thumb-item:hover .sidebar-thumb-title { color: #0060a9; }
 
-  /* ── DJ Hint ── */
-  .dj-hint {
+  /* ── DJ Settings Popup ── */
+  #dj-settings-popup {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 280px;
     background: #fff;
-    border-top: 1px solid #e8e8e8;
-    border-bottom: 1px solid #e8e8e8;
-    padding: 8px 0;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 9997;
+    display: none;
+    animation: popupIn 0.15s ease;
+    font-family: 'Retina', Arial, sans-serif;
+  }
+  /* Tooltip caret */
+  #dj-settings-popup::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    border: 8px solid transparent;
+    border-bottom-color: #ccc;
+    border-top: none;
+    width: 0; height: 0;
+  }
+  #dj-settings-popup::after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 13px;
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+    border-top: none;
+    width: 0; height: 0;
+  }
+  .dj-settings-header {
+    padding: 14px 16px 10px;
+    font-family: 'Retina Narrow', 'Retina', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #222;
+  }
+  .dj-settings-body {
+    padding: 0 0 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  .dj-settings-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 4px 16px 4px 8px;
+    cursor: pointer;
+  }
+  .dj-settings-row:hover { background: #f4f4f4; }
+  .dj-settings-row-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .dj-settings-row-label {
     font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
     font-weight: 300;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     color: #555;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-  }
-  .dj-hint strong {
-    font-weight: 500;
-    color: #222;
-    font-family: 'Retina', Arial, sans-serif;
-  }
-  .dj-hint .dj-icon { font-size: 13px; }
-  .dj-hint-spacer { flex: 1; }
-  .dj-toggle-wrap {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: #555;
-    user-select: none;
-    cursor: pointer;
+    margin-left: 14px;
   }
   .dj-toggle {
     position: relative;
@@ -578,11 +640,6 @@
   }
   .dj-toggle input:checked + .dj-toggle-slider { background: #0274b6; }
   .dj-toggle input:checked + .dj-toggle-slider::before { transform: translateX(14px); }
-  .dj-hint.dj-disabled {
-    color: #aaa;
-    border-color: #e8e8e8;
-  }
-  .dj-hint.dj-disabled strong { color: #aaa; }
 
   /* ── DJ Digest Popup ── */
   #dj-popup {
@@ -1027,15 +1084,8 @@
 
   /* ── Notebook Panel ── */
   #vocab-panel {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 340px;
+    border-top: 1px solid #e8e8e8;
     background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 0;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-    z-index: 9998;
     display: none;
     overflow: hidden;
     animation: popupIn 0.15s ease;
@@ -1119,23 +1169,18 @@
     line-height: 1.5;
   }
 
-  .dj-hint-vocab-btn {
+  .dj-settings-notebook-btn {
     background: none;
-    border: 1px solid #0274b6;
-    border-radius: 2px;
-    color: #0274b6;
-    font-family: 'Retina', Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 3px 8px;
-    margin-right: 0;
+    gap: 0;
+    padding: 4px 16px 4px 8px;
+    width: 100%;
+    text-align: left;
   }
-  .dj-hint-vocab-btn:hover { background: #f0f7fc; }
+  .dj-settings-notebook-btn:hover { background: #f4f4f4; }
   #vocab-count {
     background: #0274b6;
     color: #fff;
@@ -1734,8 +1779,6 @@
     /* ── Utility bar: scroll horizontally ── */
     .article-utility-bar { overflow-x: auto; flex-wrap: nowrap; }
 
-    /* ── DJ hint bar ── */
-    .dj-hint { font-size: 11px; }
 
     /* ── Popup: bottom sheet ── */
     #dj-popup {
@@ -1761,7 +1804,6 @@
     }
 
     /* ── Vocab panel: full width ── */
-    #vocab-panel { width: 100%; left: 0; right: 0; border-radius: 0 0 6px 6px; }
 
     /* Settings gear: lower on mobile */
     #settings-gear { bottom: 16px; right: 16px; }
@@ -1789,7 +1831,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: #555;
+      color: #222;
       padding: 6px 10px;
       gap: 3px;
     }
@@ -1800,8 +1842,6 @@
       min-height: 220px;
     }
 
-    /* ── DJ hint bar: hidden on mobile (minimal interference) ── */
-    .dj-hint { display: none; }
 
     /* ── Headline font tweak for mobile ── */
     h1 {
@@ -1966,56 +2006,67 @@
         <!-- Date -->
         <div style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:12px;color:#555;margin-bottom:16px;">October 26, 2022, 12:00pm ET</div>
         <!-- Utility bar -->
-        <div class="article-utility-bar-wrap" style="border-top:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;margin-bottom:12px;">
+        <div class="article-utility-bar-wrap" style="border-top:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;margin-bottom:12px;background:#f4f4f4;">
           <!-- Desktop layout -->
           <div class="article-utility-bar-desktop" style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;">
             <!-- Left: icon tools -->
-            <div class="utility-left-icons" style="display:flex;align-items:center;gap:0;">
-              <button class="utility-btn" title="Share"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-              <button class="utility-btn" title="Save"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-              <button class="utility-btn" title="Text size"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><text x="2" y="18" font-size="15" font-family="Georgia,serif" fill="#555">Aa</text></svg></button>
-              <button class="utility-btn" title="Comments" style="gap:4px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span style="font-family:'Retina',Arial,sans-serif;font-size:14px;font-weight:500;color:#555;">280</span></button>
+            <div class="utility-left-icons" style="display:flex;align-items:center;">
+              <div style="position:relative;">
+                <button class="utility-btn" id="dj-settings-btn" title="DJ Digest" onclick="toggleDjSettingsPopup(event)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg></button>
+                <div id="dj-settings-popup">
+                  <div class="dj-settings-header">DJ Digest</div>
+                  <div class="dj-settings-body">
+                    <!-- Enable/disable row -->
+                    <div class="dj-settings-row" onclick="toggleDjDigest()">
+                      <div class="dj-settings-row-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg>
+                      </div>
+                      <span class="dj-settings-row-label" id="dj-toggle-label">Disable AI insights</span>
+                      <input type="checkbox" id="dj-toggle-input" checked onchange="toggleDjDigest()" onclick="event.stopPropagation()" style="display:none;">
+                    </div>
+                    <!-- Notebook row -->
+                    <button class="dj-settings-notebook-btn" onclick="toggleVocabPanel()">
+                      <div class="dj-settings-row-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      </div>
+                      <span class="dj-settings-row-label">Notebook <span id="vocab-count">0</span></span>
+                    </button>
+                  </div>
+                  <div id="vocab-panel">
+                    <div class="vocab-panel-header">
+                      Notebook
+                      <button class="vocab-panel-close" onclick="toggleVocabPanel()">✕</button>
+                    </div>
+                    <div class="vocab-panel-body" id="vocab-panel-body">
+                      <div class="vocab-panel-empty" id="vocab-empty">No words saved yet.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="utility-divider"></div>
+              <button class="utility-btn" title="Share"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+              <button class="utility-btn" title="Save"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+              <button class="utility-btn" title="Text size"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><text x="2" y="18" font-size="15" font-family="Georgia,serif" fill="#222">Aa</text></svg></button>
+              <button class="utility-btn-text" title="Comments"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="u-label">280</span></button>
             </div>
             <!-- Right: text actions -->
             <div class="utility-right-text" style="display:flex;align-items:center;">
               <div class="utility-divider"></div>
-              <button class="utility-btn" title="Gift article" style="gap:6px;padding:4px 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span class="utility-text-label" style="font-family:'Retina',Arial,sans-serif;font-weight:500;font-size:14px;color:#555;">Gift unlocked article</span></button>
+              <button class="utility-btn-text" title="Gift article"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span class="u-label">Gift unlocked article</span></button>
               <div class="utility-divider"></div>
-              <button class="utility-btn" title="Listen" style="gap:6px;padding:4px 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span class="utility-text-label" style="font-family:'Retina',Arial,sans-serif;font-weight:500;font-size:14px;color:#555;">Listen</span><span class="utility-text-label" style="font-family:'Retina',Arial,sans-serif;font-weight:300;font-size:14px;color:#555;margin-left:2px;">(14 min)</span></button>
+              <button class="utility-btn-text" title="Listen"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span class="u-label">Listen</span><span class="u-sub">(14 min)</span></button>
               <div class="utility-divider"></div>
-              <button class="utility-btn" title="More" style="padding:4px 8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#555"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+              <button class="utility-btn" title="More"><svg width="24" height="24" viewBox="0 0 24 24" fill="#222"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
             </div>
           </div>
           <!-- Mobile layout: 5 icons evenly spread -->
-          <div class="article-utility-bar-mobile" style="display:none;">
-            <button class="utility-btn-mob" title="Share"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-            <button class="utility-btn-mob" title="Save"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            <button class="utility-btn-mob" title="Text size"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><text x="1" y="17" font-size="14" font-family="Georgia,serif" fill="#555">Aa</text></svg></button>
-            <button class="utility-btn-mob" title="Comments" style="gap:4px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
-            <button class="utility-btn-mob" title="Listen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></button>
-          </div>
-        </div>
-        <div class="dj-hint" id="dj-hint-bar">
-          <label class="dj-toggle-wrap" onclick="toggleDjDigest()">
-            <span class="dj-toggle">
-              <input type="checkbox" id="dj-toggle-input" checked onchange="toggleDjDigest()" onclick="event.stopPropagation()">
-              <span class="dj-toggle-slider"></span>
-            </span>
-          </label>
-          <strong>DJ Digest:</strong> Highlight any text to get AI-powered insights.
-          <span class="dj-hint-spacer"></span>
-          <button class="dj-hint-vocab-btn" onclick="toggleVocabPanel()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            Notebook <span id="vocab-count">0</span>
-          </button>
-          <div id="vocab-panel">
-            <div class="vocab-panel-header">
-              Notebook
-              <button class="vocab-panel-close" onclick="toggleVocabPanel()">✕</button>
-            </div>
-            <div class="vocab-panel-body" id="vocab-panel-body">
-              <div class="vocab-panel-empty" id="vocab-empty">No words saved yet.</div>
-            </div>
+          <div class="article-utility-bar-mobile" style="display:none;background:#f4f4f4;">
+            <button class="utility-btn-mob" title="DJ Digest" onclick="toggleDjSettingsPopup(event)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z"/></svg></button>
+            <button class="utility-btn-mob" title="Share"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+            <button class="utility-btn-mob" title="Save"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            <button class="utility-btn-mob" title="Text size"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><text x="1" y="17" font-size="14" font-family="Georgia,serif" fill="#222">Aa</text></svg></button>
+            <button class="utility-btn-mob" title="Comments"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+            <button class="utility-btn-mob" title="Listen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></button>
           </div>
         </div>
       </div>
@@ -2355,14 +2406,23 @@
 let djEnabled = true;
 let currentSelection = '';
 
+function toggleDjSettingsPopup(e) {
+  e.stopPropagation();
+  const popup = document.getElementById('dj-settings-popup');
+  const isOpen = popup.style.display === 'block';
+  popup.style.display = isOpen ? 'none' : 'block';
+}
+
 function toggleDjDigest() {
+  djEnabled = !djEnabled;
   const input = document.getElementById('dj-toggle-input');
-  const hint = document.getElementById('dj-hint-bar');
-  djEnabled = input.checked;
-  hint.classList.toggle('dj-disabled', !djEnabled);
+  if (input) input.checked = djEnabled;
+  const label = document.getElementById('dj-toggle-label');
+  if (label) label.textContent = djEnabled ? 'Disable AI insights' : 'Enable AI insights';
   if (!djEnabled) {
     document.getElementById('dj-popup').style.display = 'none';
   } else if (!userSegment) {
+    document.getElementById('dj-settings-popup').style.display = 'none';
     document.getElementById('onboarding-overlay').style.display = 'flex';
   }
 }
@@ -2605,6 +2665,10 @@ document.addEventListener('mousedown', function(e) {
   const popup = document.getElementById('dj-popup');
   if (!popup.contains(e.target) && !e.target.closest('#dj-popup')) {
     closePopup();
+  }
+  const settingsPopup = document.getElementById('dj-settings-popup');
+  if (!settingsPopup.contains(e.target) && !e.target.closest('#dj-settings-btn')) {
+    settingsPopup.style.display = 'none';
   }
 });
 
