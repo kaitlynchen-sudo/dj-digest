@@ -1222,32 +1222,35 @@
     overflow: hidden;
   }
   .onboarding-header {
-    background: #faf8f4;
-    color: #1a1a1a;
-    padding: 16px 24px 14px;
-    border-bottom: 2px solid #1a1a1a;
+    background: #fff;
+    color: #222;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid #ccc;
   }
   .onboarding-header h2 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 18px;
-    font-weight: 700;
+    font-family: 'Retina Narrow', 'Retina', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #222;
     margin-bottom: 4px;
-    letter-spacing: 0.2px;
   }
   .onboarding-header p {
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
+    font-weight: 300;
     color: #555;
     line-height: 1.5;
   }
-  .onboarding-body { padding: 20px 24px; }
+  .onboarding-body { padding: 16px; }
   .onboarding-body label {
-    font-family: Arial, sans-serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #888;
+    color: #555;
     display: block;
     margin-bottom: 10px;
   }
@@ -1258,7 +1261,7 @@
     margin-bottom: 16px;
   }
   .segment-btn {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ccc;
     border-radius: 0;
     padding: 10px 14px;
     text-align: left;
@@ -1267,21 +1270,22 @@
     transition: border-color 0.12s, background 0.12s;
     width: 100%;
   }
-  .segment-btn:hover { border-color: #1a1a1a; background: #f8f8f8; }
-  .segment-btn.selected { border-color: #1a1a1a; border-left: 3px solid #1a1a1a; background: #faf8f4; }
+  .segment-btn:hover { border-color: #222; background: #f4f4f4; }
+  .segment-btn.selected { border-color: #222; border-left: 3px solid #222; background: #f4f4f4; }
   .segment-btn-name {
-    font-family: Arial, sans-serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #1a1a1a;
+    color: #222;
     margin-bottom: 2px;
   }
   .segment-btn-desc {
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    color: #666;
+    font-weight: 300;
+    color: #555;
     line-height: 1.4;
   }
   .goal-options {
@@ -1295,13 +1299,13 @@
     align-items: center;
     gap: 10px;
     padding: 8px 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ccc;
     cursor: pointer;
     user-select: none;
     transition: border-color 0.12s, background 0.12s;
   }
-  .goal-option:hover { border-color: #1a1a1a; background: #f8f8f8; }
-  .goal-option.selected { border-color: #1a1a1a; background: #faf8f4; }
+  .goal-option:hover { border-color: #222; background: #f4f4f4; }
+  .goal-option.selected { border-color: #222; background: #f4f4f4; }
   .goal-option input[type="checkbox"] { display: none; }
   .goal-checkbox {
     width: 14px;
@@ -1313,8 +1317,8 @@
     justify-content: center;
   }
   .goal-option.selected .goal-checkbox {
-    border-color: #1a1a1a;
-    background: #1a1a1a;
+    border-color: #222;
+    background: #222;
   }
   .goal-option.selected .goal-checkbox::after {
     content: '';
@@ -1327,15 +1331,17 @@
     transform: rotate(45deg) translateY(-1px);
   }
   .goal-label {
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    color: #1a1a1a;
+    font-weight: 300;
+    color: #222;
     line-height: 1.4;
   }
   .onboarding-note {
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    color: #888;
+    font-weight: 300;
+    color: #555;
     margin-bottom: 14px;
   }
   .onboarding-note textarea {
@@ -1343,74 +1349,75 @@
     border: 1px solid #ccc;
     border-radius: 0;
     padding: 8px 10px;
-    font-family: Georgia, serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    color: #333;
+    font-weight: 300;
+    color: #222;
     resize: none;
     outline: none;
     margin-top: 6px;
     box-sizing: border-box;
   }
-  .onboarding-note textarea:focus { border-color: #1a1a1a; }
+  .onboarding-note textarea:focus { border-color: #222; }
   .onboarding-steps {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0;
-    padding: 14px 24px 0;
+    padding: 12px 16px 0;
   }
   .onboarding-step-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #ddd;
+    background: #ccc;
     flex-shrink: 0;
     transition: background 0.2s;
   }
-  .onboarding-step-dot.active { background: #1a1a1a; }
+  .onboarding-step-dot.active { background: #222; }
   .onboarding-step-dot.done { background: #888; }
   .onboarding-step-line {
     flex: 1;
     height: 1px;
-    background: #e0e0e0;
+    background: #ccc;
     max-width: 40px;
   }
   .onboarding-footer {
-    padding: 0 24px 20px;
+    padding: 0 16px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   .onboarding-start-btn {
-    background: #1a1a1a;
+    background: #222;
     color: #fff;
     border: none;
     padding: 10px 24px;
     border-radius: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
     margin-left: auto;
   }
   .onboarding-start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .onboarding-start-btn:not(:disabled):hover { background: #333; }
+  .onboarding-start-btn:not(:disabled):hover { background: #444; }
   .onboarding-back-btn {
     background: none;
     border: 1px solid #ccc;
     padding: 10px 20px;
     border-radius: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Retina', Arial, sans-serif;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     cursor: pointer;
     color: #555;
   }
-  .onboarding-back-btn:hover { border-color: #1a1a1a; color: #1a1a1a; }
+  .onboarding-back-btn:hover { border-color: #222; color: #222; }
 
   /* ── Profile Pill ── */
   #profile-pill {
