@@ -777,6 +777,13 @@
     line-height: 1.65;
     color: #222;
   }
+  #dj-response-text {
+    font-family: 'Retina', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: #222;
+  }
 
   .dj-response-area.placeholder {
     color: #999;
@@ -3086,7 +3093,7 @@ function showResponse(text) {
       </button>
       <div id="vocab-form-area"></div>`;
   } else {
-    content = renderText(text);
+    content = `<div id="dj-response-text">${renderText(text)}</div>`;
   }
 
   area.innerHTML = content + `
