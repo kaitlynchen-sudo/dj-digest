@@ -2681,7 +2681,7 @@ function setAiMode(mode) {
   const keyField = document.getElementById('settings-key-field');
   if (keyField) keyField.style.display = mode === 'live' ? 'flex' : 'none';
   document.getElementById('ai-status').textContent =
-    mode === 'demo' ? 'Using simulated responses' : 'Live — using GPT-4o via local proxy';
+    mode === 'demo' ? 'Using simulated responses' : 'Live — using GPT-4o';
 }
 
 function openSettings() {
@@ -3013,49 +3013,43 @@ function getArticleText() {
 // ── Bedrock Proxy Call ─────────────────────────────────────────────────────
 async function callBedrock(systemPrompt, userText, articleText) {
   const apiKey = document.getElementById('bedrock-key').value.trim();
-  if (!apiKey) throw new Error('Please enter your OpenAI API key in the banner.');
+  if (!apiKey) throw new Error('Please enter your OpenAI API key in Settings.');
 
-  const body = {
-    __api_key:  apiKey,
-    max_tokens: 1024,
-    system:     systemPrompt,
-    messages:   [{ role: 'user', content: `Full article for context:\n\n${articleText}\n\n---\n\nThe user highlighted this passage:\n\n"${userText}"` }]
-  };
-
-  const res = await fetch('http://localhost:8765', {
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      max_tokens: 1024,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Full article for context:\n\n${articleText}\n\n---\n\nThe user highlighted this passage:\n\n"${userText}"` }
+      ]
+    })
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || data.error?.message || `HTTP ${res.status}`);
-
-  const textBlock = data.content && data.content.find(b => b.type === 'text');
-  if (!textBlock) throw new Error('No text in response');
-  return textBlock.text;
+  if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+  return data.choices[0].message.content;
 }
-
 
 async function callBedrockRaw(systemPrompt, messages) {
   const apiKey = document.getElementById('bedrock-key').value.trim();
-  if (!apiKey) throw new Error('Please enter your OpenAI API key in the banner.');
-  const body = {
-    __api_key:  apiKey,
-    max_tokens: 1024,
-    system:     systemPrompt,
-    messages:   messages
-  };
-  const res = await fetch('http://localhost:8765', {
+  if (!apiKey) throw new Error('Please enter your OpenAI API key in Settings.');
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      max_tokens: 1024,
+      messages: [{ role: 'system', content: systemPrompt }, ...messages]
+    })
   });
+
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || data.error?.message || `HTTP ${res.status}`);
-  const textBlock = data.content && data.content.find(b => b.type === 'text');
-  if (!textBlock) throw new Error('No text in response');
-  return textBlock.text;
+  if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+  return data.choices[0].message.content;
 }
 
 function showQueryInput() {
